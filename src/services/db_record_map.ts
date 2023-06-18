@@ -10,7 +10,7 @@ export async function saveRecordMapToDatabase(id: string, recordMap: RecordMap) 
 }
 
 export async function readRecordMapFromDatabase(id: String): Promise<RecordMap | null> {
-    const filepath = join(process.env.PWD || '', `records/old/recordMap-${id}.json`)
+    const filepath = join(process.env.PWD || '', `cache/notion_records/${id}.json`)
     if (!fs.existsSync(filepath)) { return null;}
     const contents = fs.readFileSync(filepath, 'utf-8');
     const json = JSON.parse(contents);
@@ -24,7 +24,7 @@ function syncWriteFile(id: string, data: any) {
      *  - w = Open file for reading and writing. File is created if not exists
      *  - a+ = Open file for reading and appending. The file is created if not exists
      */
-    const filepath = join(process.env.PWD || '', `records/new/recordMap-${id}.json`)
+    const filepath = join(process.env.PWD || '', `cache/notion_records/${id}.json`)
     fs.writeFileSync(filepath, data, {
         flag: 'w',
     });
