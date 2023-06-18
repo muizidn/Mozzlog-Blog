@@ -3,7 +3,7 @@ export type Post = {
   slug: string;
   title: string;
   categories: string[];
-  cover: string;
+  cover: string | null;
   date: string;
   published: boolean;
   lastEditedAt: number;
