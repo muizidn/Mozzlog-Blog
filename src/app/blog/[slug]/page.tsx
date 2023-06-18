@@ -3,9 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { ExtendedRecordMap } from 'notion-types';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
-import { getRecordMap } from '@/libs/notion';
+import { getRecordMap, getPageRawRecordMap } from '@/libs/notion';
 import { getAllPostsFromNotion } from '@/services/posts';
 import { Post } from '@/types/post';
 
@@ -41,7 +42,9 @@ export default async function PostPage({
       p.slug !== slug && p.categories.some((v) => post.categories.includes(v))
   );
 
-  const recordMap = await getRecordMap(post.id);
+  const recordMapRaw = await getPageRawRecordMap(post.id);
+  const recordMap = recordMapRaw.recordMap as unknown as ExtendedRecordMap;
+
   let image = null;
   if (post.cover !== null) {
     image = (
@@ -55,7 +58,6 @@ export default async function PostPage({
       </div>
     );
   }
-
   return (
     <>
       <article
