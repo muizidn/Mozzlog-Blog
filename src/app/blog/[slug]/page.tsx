@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { ExtendedRecordMap } from 'notion-types';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
-import { getRecordMap, getPageRawRecordMap } from '@/libs/notion';
+import { getPageRawRecordMap } from '@/libs/notion';
 import { getAllPostsFromNotion } from '@/services/posts';
 import { Post } from '@/types/post';
 import { saveRecordMapToDatabase, readRecordMapFromDatabase } from '@/services/db_record_map';
