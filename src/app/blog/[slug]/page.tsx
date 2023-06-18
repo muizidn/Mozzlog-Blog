@@ -9,6 +9,7 @@ import RelatedPosts from '@/components/posts/related-posts';
 import { getRecordMap, getPageRawRecordMap } from '@/libs/notion';
 import { getAllPostsFromNotion } from '@/services/posts';
 import { Post } from '@/types/post';
+import { saveRecordMapToDatabase, readRecordMapFromDatabase } from '@/services/db_record_map';
 
 export default async function PostPage({
   params: { slug },
@@ -42,8 +43,13 @@ export default async function PostPage({
       p.slug !== slug && p.categories.some((v) => post.categories.includes(v))
   );
 
-  const recordMapRaw = await getPageRawRecordMap(post.id);
-  const recordMap = recordMapRaw.recordMap as unknown as ExtendedRecordMap;
+  let recordMap = await readRecordMapFromDatabase(post.id)
+  if (recordMap === null) {
+    const recordMapRaw = await getPageRawRecordMap(post.id);
+    recordMap = recordMapRaw.recordMap;
+  }
+  const extendedRecordMap = recordMap as unknown as ExtendedRecordMap;
+  saveRecordMapToDatabase(post.id, recordMap)
 
   let image = null;
   if (post.cover !== null) {
@@ -65,7 +71,7 @@ export default async function PostPage({
         className="mt-4 flex flex-col items-center md:mt-20"
       >
         {image}
-        <NotionPage post={post} recordMap={recordMap} />
+        <NotionPage post={post} recordMap={extendedRecordMap} />
       </article>
       <RelatedPosts posts={relatedPosts} />
     </>
