@@ -9,8 +9,8 @@ export function getRecordMap(id: string) {
   return notion.getPage(id);
 }
 
-export function mapImageUrl(url: string, block: Block): string | null {
-  if (!url) {
+export function mapImageUrl(url: string | null, block: Block): string | null {
+  if (!url || url === null) {
     return null;
   }
 

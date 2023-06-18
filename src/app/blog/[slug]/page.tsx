@@ -42,6 +42,19 @@ export default async function PostPage({
   );
 
   const recordMap = await getRecordMap(post.id);
+  let image = null;
+  if (post.cover !== null) {
+    image = (
+      <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
+        <Image
+          src={post.cover}
+          alt="cover"
+          fill
+          style={{ objectFit: 'contain' }}
+        />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -49,14 +62,7 @@ export default async function PostPage({
         data-revalidated-at={new Date().getTime()}
         className="mt-4 flex flex-col items-center md:mt-20"
       >
-        <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
-          <Image
-            src={post.cover}
-            alt="cover"
-            fill
-            style={{ objectFit: 'contain' }}
-          />
-        </div>
+        {image}
         <NotionPage post={post} recordMap={recordMap} />
       </article>
       <RelatedPosts posts={relatedPosts} />
