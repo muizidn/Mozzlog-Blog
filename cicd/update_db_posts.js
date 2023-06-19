@@ -3,13 +3,13 @@ const fs = require("fs")
 const { join } = require("path")
 const { config } = require("dotenv")
 
-config();
+config(); // load .env
 
 const apiKey = process.env.NOTION_API_KEY
 const database_id = process.env.NOTION_DATABASE_ID
 const notion = new Client({ auth: apiKey })
 
-async function getPosts() {
+async function getUpdatedPostsAfterLastFetch() {
   const filters = []
   const lf = lastFetch()
   if (lf !== null) {
@@ -52,7 +52,6 @@ async function getPosts() {
       lastEditedAt
     })
   }
-  updateLastFetch()
   return allPosts
 }
 
@@ -65,6 +64,15 @@ function lastFetch() {
   return new Date(contents)
 }
 
+function loadCacheOrDefault(file, defaultValue) {
+  const filepath = join(process.env.PWD || "", `cache/${file}`)
+  if (!fs.existsSync(filepath)) {
+    return defaultValue
+  }
+  const contents = fs.readFileSync(filepath, "utf-8").trim()
+  return JSON.parse(contents)
+}
+
 function updateLastFetch() {
   const filepath = join(process.env.PWD || "", `cache/notion_last_fetch`)
   fs.writeFileSync(filepath, new Date(Date.now()).toISOString(), {
@@ -72,17 +80,40 @@ function updateLastFetch() {
   })
 }
 
-function syncWriteFile(data) {
-  const filepath = join(process.env.PWD || '', `cache/posts.json`)
+function syncWriteFile(data, file) {
+  const filepath = join(process.env.PWD || '', `cache/${file}`)
   fs.writeFileSync(filepath, data, {
     flag: 'w',
   });
 }
 
 async function run() {
-  const posts = await getPosts()
-  const json = JSON.stringify(posts)
-  syncWriteFile(json)
+  const freshPosts = await getUpdatedPostsAfterLastFetch()
+  updateLastFetch()
+
+  const postIdToIdx = await loadCacheOrDefault("postIdToIdx.json", {});
+  const oldPosts = await loadCacheOrDefault("posts.json", []);
+
+  const newPosts = []
+
+  for (var i = 0; i < freshPosts.length; i++) {
+    const post = freshPosts[i];
+    const idx = postIdToIdx[post.id]
+    if (idx !== undefined) {
+      oldPosts[idx] = post
+    } else {
+      newPosts.push(post)
+    }
+  }
+
+  const finalPosts = newPosts.concat(oldPosts);
+  for (var i = 0; i < finalPosts.length; i++) {
+    const post = finalPosts[i];
+    postIdToIdx[post.id] = i
+  }
+
+  syncWriteFile(JSON.stringify(finalPosts, null, 2), "posts.json")
+  syncWriteFile(JSON.stringify(postIdToIdx, null, 2), "postIdToIdx.json")
   console.log("Success write posts to cache")
 }
 run()
