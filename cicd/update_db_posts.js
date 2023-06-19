@@ -38,7 +38,7 @@ async function getUpdatedPostsAfterLastFetch() {
     const cover = post.properties.Cover.files.pop()?.external.url || null
     const date = post.properties.Date.date.start
     const published = post.properties.Published.checkbox
-    const lastEditedAt = new Date(post.last_edited_time).getUTCMilliseconds()
+    const lastEditedAt = new Date(post.last_edited_time).valueOf()
     allPosts.push({
       id,
       title,
@@ -61,6 +61,7 @@ function lastFetch() {
     return null
   }
   const contents = fs.readFileSync(filepath, "utf-8").trim()
+  if (contents === "") { return null;}
   return new Date(contents)
 }
 
