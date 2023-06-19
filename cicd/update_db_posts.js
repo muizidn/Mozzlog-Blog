@@ -1,0 +1,88 @@
+const { Client } = require("@notionhq/client")
+const fs = require("fs")
+const { join } = require("path")
+const { config } = require("dotenv")
+
+config();
+
+const apiKey = process.env.NOTION_API_KEY
+const database_id = process.env.NOTION_DATABASE_ID
+const notion = new Client({ auth: apiKey })
+
+async function getPosts() {
+  const filters = []
+  const lf = lastFetch()
+  if (lf !== null) {
+    filters.push({
+      property: "Last edited time",
+      last_edited_time: {
+        after: lf.toISOString()
+      }
+    })
+  }
+  const response = await notion.databases.query({
+    database_id: database_id,
+    filter: {
+      or: filters
+    },
+    sorts: []
+  })
+
+  const allPosts = []
+
+  for (const post of response.results.map(post => post)) {
+    const id = post.id
+    const title = post.properties.Page.title.pop()?.plain_text || ""
+    const slug = post.properties.Slug.rich_text.pop()?.plain_text || ""
+    const categories = post.properties.Category.multi_select.map(e => e.name)
+    const cover = post.properties.Cover.files.pop()?.external.url || null
+    const date = post.properties.Date.date.start
+    const published = post.properties.Published.checkbox
+    const lastEditedAt = new Date(post.last_edited_time).getUTCMilliseconds()
+    allPosts.push({
+      id,
+      title,
+      slug,
+      categories,
+      // Fix 403 error for images.
+      // https://github.com/NotionX/react-notion-x/issues/211
+      cover,
+      date,
+      published,
+      lastEditedAt
+    })
+  }
+  updateLastFetch()
+  return allPosts
+}
+
+function lastFetch() {
+  const filepath = join(process.env.PWD || "", `cache/notion_last_fetch`)
+  if (!fs.existsSync(filepath)) {
+    return null
+  }
+  const contents = fs.readFileSync(filepath, "utf-8").trim()
+  return new Date(contents)
+}
+
+function updateLastFetch() {
+  const filepath = join(process.env.PWD || "", `cache/notion_last_fetch`)
+  fs.writeFileSync(filepath, new Date(Date.now()).toISOString(), {
+    flag: "w"
+  })
+}
+
+function syncWriteFile(data) {
+  const filepath = join(process.env.PWD || '', `cache/posts.json`)
+  fs.writeFileSync(filepath, data, {
+    flag: 'w',
+  });
+}
+
+async function run() {
+  const posts = await getPosts()
+  const json = JSON.stringify(posts)
+  syncWriteFile(json)
+  console.log("Success write posts to cache")
+}
+run()
