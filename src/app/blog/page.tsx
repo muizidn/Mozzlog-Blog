@@ -14,7 +14,6 @@ export default async function BlogPage() {
 
   const allCategories = toUniqueArray(
     allPosts
-      .filter((post) => post.published)
       .map((post) => post.categories)
       .flat()
   ).sort();

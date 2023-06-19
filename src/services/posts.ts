@@ -1,11 +1,10 @@
 import { Post } from '@/types/post';
-import { Client } from "@notionhq/client";
-import { DbPost } from './db_post';
 import fs from 'fs';
 import { join } from 'path';
 
 export async function getAllPostsFromNotion() {
-  return readPostsFromDatabase();
+  const posts = await readPostsFromDatabase()
+  return posts.filter((post) => post.published);
 }
 
 export async function readPostsFromDatabase(): Promise<Post[]> {
