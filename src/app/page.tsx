@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/react';
+
 export const metadata = {
   title: 'Welcome | Mozzlog',
 };
@@ -27,6 +29,7 @@ export default function HomePage() {
           </button>
         </div>
       </div>
+      <Analytics />
     </>
   );
 }
