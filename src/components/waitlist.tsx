@@ -3,7 +3,7 @@ import Script from 'next/script';
 export default function Waitlist({code}: {code: string}) {
   return (
     <>
-      <Script src="https://getlaunchlist.com/js/widget.js" />
+      <Script src="https://getlaunchlist.com/js/widget-diy.js" />
 
       <form
         className="launchlist-form"
