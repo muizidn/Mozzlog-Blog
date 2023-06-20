@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.notion.so',
       },
+      {
+        protocol: 'https',
+        hostname: 'bmwvfjerbeswbgqrwmfp.supabase.co',
+      },
     ],
   },
 
