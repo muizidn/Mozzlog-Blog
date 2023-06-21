@@ -8,25 +8,34 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <>
-      <h1 className="mt-12 text-center text-3xl font-bold">Projects</h1>
+      <h1 className="mt-12 text-center text-3xl font-bold">Side Project Helps Us Grow As A Software Engineer</h1>
       <h2 className="mt-12 text-center text-3xl">
-        We are working on some side projects
+        You can also benefit from our side project. Join the waitlist for free premium features*
       </h2>
       <h2 className="mt-12 text-center text-3xl">Take a look</h2>
-      {/* Enter you github link here */}
       <Link href="/projects/network-spy">
         <h3 className="mt-12 text-center text-3xl">
           Network Spy (last commit 1 day ago)
         </h3>
       </Link>
-      <h3 className="mt-12 text-center text-3xl">
-        WolfUtil (last commit 1 day ago)
-      </h3>
+      <Link href="/projects/wolf-util">
+        <h3 className="mt-12 text-center text-3xl">
+          Wolf Util (last commit 1 day ago)
+        </h3>
+      </Link>
       <Link href="/projects/tomio-ai">
         <h3 className="mt-12 text-center text-3xl">
           Tomio AI (last commit 1 day ago)
         </h3>
       </Link>
+      <Link href="/projects/loop-quran">
+        <h3 className="mt-12 text-center text-3xl">
+          Loop Quran (last commit 1 day ago)
+        </h3>
+      </Link>
+      <p className="mt-12 text-center text-3s">
+        *Premium features depends on the project owner. Please contact the developer for more information.
+      </p>
     </>
   );
 }

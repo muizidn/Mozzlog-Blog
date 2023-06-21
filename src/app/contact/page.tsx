@@ -18,7 +18,7 @@ export default function ContactPage() {
   for (var i = 0; i < contributors.length; i++) {
     const contributor = contributors[i];
     contributorsEl.push(
-      <h3 className="mt-12 text-center text-3xl">
+      <h3 key={i.toString()} className="mt-12 text-center text-3xl">
         {contributor.name} ({contributor.github}) as {contributor.role} Does{' '}
         {contributor.stack}
       </h3>

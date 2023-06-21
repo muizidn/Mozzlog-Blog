@@ -13,7 +13,7 @@ export default function SyncPage() {
     const postsRes = await fetch(`/api/posts?password=${password}`);
 
     if (postsRes.status === 403) {
-      setMessage('Wrong password');
+      setMessage('Wrong passwordw');
       return false;
     }
     if (postsRes.status === 500) {
