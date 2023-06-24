@@ -2,31 +2,44 @@ import Image from 'next/image';
 
 import Waitlist from './waitlist';
 
-export default function ProjectTemplatePage({
-  name,
-  tagline,
-  description,
-  code
-}: {
+interface Props {
   name: string;
   tagline: string;
   description: string;
   code: string;
-}) {
+  image?: string | undefined;
+}
+
+const ProjectTemplatePage: React.FC<Props> = ({
+  name,
+  tagline,
+  description,
+  code,
+  image,
+}) => {
+  let imageEl = <div></div>;
+  if (image !== '' && image !== null && image !== undefined) {
+    imageEl = (
+      <img
+        className="w-2.5/4 right-0 top-0 hidden h-full object-contain lg:block"
+        src={image!}
+        alt=""
+      ></img>
+    );
+  }
   return (
     <>
       <section className="relative py-24 md:py-0">
-        {/* <img className="absolute top-0 right-0 hidden lg:block w-1/2 h-full object-contain" src="pstls-assets/images/applications/group-phones.png" alt=""> */}
         <div className="container mx-auto px-4">
-          <h2 className="font-heading mb-7 text-6xl md:text-7xl">{name}</h2>
-          <div className="-mx-4 flex flex-wrap">
-            <div className="mb-12 w-full px-4 md:mb-0 lg:w-1/2">
-              <div className="mx-auto max-w-md md:mx-0 md:py-32">
-                <h2 className="font-heading mb-6 text-5xl md:text-6xl">
+          <h2 className="font-heading text-6xl md:text-7xl">{name}</h2>
+          <div className="-mx-4 flex  flex-wrap">
+            <div className="mb-12 w-full px-4 md:mb-0 ">
+              <div className="mx-auto max-w-md md:mx-0 md:py-8">
+                <h3 className="font-heading mb-6 text-5xl md:text-4xl">
                   {tagline}
-                </h2>
+                </h3>
                 <p className="mb-6 leading-8">{description}</p>
-                <Waitlist code={code}/>
+                <Waitlist code={code} />
                 <div className="flex">
                   <a className="mr-4 inline-block" href="#">
                     {/* <img src="pstls-assets/images/applications/appstore.svg" alt=""> */}
@@ -37,6 +50,7 @@ export default function ProjectTemplatePage({
                 </div>
               </div>
             </div>
+            {imageEl}
             <div className="w-full lg:hidden">
               {/* <img src="pstls-assets/images/applications/group-phones.png" alt=""> */}
             </div>
@@ -45,4 +59,6 @@ export default function ProjectTemplatePage({
       </section>
     </>
   );
-}
+};
+
+export default ProjectTemplatePage;

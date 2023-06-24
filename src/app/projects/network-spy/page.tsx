@@ -7,6 +7,7 @@ export default function NetworkSpyPage() {
       tagline="Develop, Debug, Analyze"
       description="No more guessing what server response causes crash. You can always inspect your application communication at any time. With analysis feature, you can get many insight from each traffic"
       code='0ev0eN'
+      image="https://bmwvfjerbeswbgqrwmfp.supabase.co/storage/v1/object/public/mozzlog/NetworkSpy.png"
     />
   );
 }
