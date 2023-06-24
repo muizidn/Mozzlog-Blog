@@ -10,13 +10,16 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 }
 
   function subscribe() {
-    console.log("DO SOMETHING!", email)
     if (email === '') { return }
     let x = new XMLHttpRequest();
     x.open('POST', '/api/newsletter');
     x.send(JSON.stringify({
         email: email,
     }))
+    x.onload = () => {
+      setEmail('');
+      alert("Success! You have successfully subscribed")
+    }
   }
 
   return (
