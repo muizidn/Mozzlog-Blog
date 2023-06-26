@@ -1,12 +1,14 @@
 import Image from 'next/image';
 
 import Waitlist from './waitlist';
+import Link from 'next/link';
 
 interface Props {
   name: string;
   tagline: string;
   description: string;
   waitlistCode?: string | undefined;
+  websiteUrl?: string | undefined;
   image?: string | undefined;
 }
 
@@ -15,6 +17,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
   tagline,
   description,
   waitlistCode,
+  websiteUrl,
   image,
 }) => {
   let imageEl = <div></div>;
@@ -28,9 +31,24 @@ const ProjectTemplatePage: React.FC<Props> = ({
     );
   }
 
-  let waitlist = <div></div>
-  if (waitlistCode !== '' && waitlistCode !== null && waitlistCode !== undefined) {
-    waitlist = <Waitlist code={waitlistCode!} />
+  let waitlist = <div></div>;
+  if (
+    waitlistCode !== '' &&
+    waitlistCode !== null &&
+    waitlistCode !== undefined
+  ) {
+    waitlist = <Waitlist code={waitlistCode!} />;
+  }
+
+  let goToWebsite = <div></div>;
+  if (websiteUrl !== '' && websiteUrl !== null && websiteUrl !== undefined) {
+    goToWebsite = (
+      <Link href={websiteUrl!}>
+      <button className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+        Go to Website
+      </button>
+      </Link>
+    );
   }
 
   return (
@@ -45,6 +63,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
                   {tagline}
                 </h3>
                 <p className="mb-6 leading-8">{description}</p>
+                {goToWebsite}
                 {waitlist}
                 <div className="flex">
                   <a className="mr-4 inline-block" href="#">
