@@ -6,7 +6,7 @@ interface Props {
   name: string;
   tagline: string;
   description: string;
-  code: string;
+  code?: string | undefined;
   image?: string | undefined;
 }
 
@@ -27,6 +27,12 @@ const ProjectTemplatePage: React.FC<Props> = ({
       ></img>
     );
   }
+
+  let waitlist = <div></div>
+  if (code !== '' && code !== null && code !== undefined) {
+    waitlist = <Waitlist code={code!} />
+  }
+
   return (
     <>
       <section className="relative py-24 md:py-0">
@@ -39,7 +45,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
                   {tagline}
                 </h3>
                 <p className="mb-6 leading-8">{description}</p>
-                <Waitlist code={code} />
+                {waitlist}
                 <div className="flex">
                   <a className="mr-4 inline-block" href="#">
                     {/* <img src="pstls-assets/images/applications/appstore.svg" alt=""> */}
