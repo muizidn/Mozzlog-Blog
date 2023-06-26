@@ -12,6 +12,7 @@ import CategoryList from '@/components/category-list';
 import useMounted from '@/hooks/use-mounted';
 import '@/styles/notion.css';
 import { Post } from '@/types/post';
+import Code from './code'
 
 export default function NotionPage({
   post,
@@ -49,9 +50,6 @@ export default function NotionPage({
   );
 }
 
-const Code = dynamic(() =>
-  import('react-notion-x/build/third-party/code').then((m) => m.Code)
-);
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
     (m) => m.Collection
