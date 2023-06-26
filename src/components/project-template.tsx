@@ -21,7 +21,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
   image,
 }) => {
   let imageEl = <div></div>;
-  if (image !== '' && image !== null && image !== undefined) {
+  if (isValid(image)) {
     imageEl = (
       <img
         className="w-2.5/4 right-0 top-0 hidden h-full object-contain lg:block"
@@ -32,16 +32,12 @@ const ProjectTemplatePage: React.FC<Props> = ({
   }
 
   let waitlist = <div></div>;
-  if (
-    waitlistCode !== '' &&
-    waitlistCode !== null &&
-    waitlistCode !== undefined
-  ) {
+  if (isValid(waitlistCode)) {
     waitlist = <Waitlist code={waitlistCode!} />;
   }
 
   let goToWebsite = <div></div>;
-  if (websiteUrl !== '' && websiteUrl !== null && websiteUrl !== undefined) {
+  if (isValid(websiteUrl)) {
     goToWebsite = (
       <Link href={websiteUrl!}>
       <button className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
@@ -85,5 +81,9 @@ const ProjectTemplatePage: React.FC<Props> = ({
     </>
   );
 };
+
+function isValid(input: string | undefined ) {
+  return input !== '' && input !== null && input !== undefined
+}
 
 export default ProjectTemplatePage;
