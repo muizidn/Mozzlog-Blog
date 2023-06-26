@@ -10,8 +10,14 @@ const contributors = [
   {
     name: 'Muhammad Muizzsuddin',
     github: 'https://github.com/muizidn',
-    stack: ['iOS', 'Flutter', 'ReactNative', 'NextJS', 'and so on'],
+    stack: ['iOS', 'Flutter', 'Next.js'],
     role: 'Team Lead',
+  },
+  {
+    name: 'Syofyan Zuhad',
+    github: 'https://github.com/syofyanzuhad',
+    stack: ['Laravel', 'Next.js', 'TailwindCSS'],
+    role: 'Developer and Blogger',
   },
 ];
 
@@ -39,10 +45,10 @@ export default function ContactPage() {
     <>
       <h1 className="mt-12 text-center text-3xl font-bold">Contact</h1>
       <h2 className="mt-12 text-center text-3xl">
-        {"Hello there. You wan't to talk? Let's talk!"}
+        {"Hello there. You want to talk? Let's talk!"}
       </h2>
       <h2 className="mt-12 text-center text-3xl">
-        You can reach these amazing talents who are contributing
+        Mozz is built by team. You can reach these amazing talents who are contributing
         continuously.
       </h2>
       <div className="mt-12">
