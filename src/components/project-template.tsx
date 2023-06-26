@@ -6,7 +6,7 @@ interface Props {
   name: string;
   tagline: string;
   description: string;
-  code?: string | undefined;
+  waitlistCode?: string | undefined;
   image?: string | undefined;
 }
 
@@ -14,7 +14,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
   name,
   tagline,
   description,
-  code,
+  waitlistCode,
   image,
 }) => {
   let imageEl = <div></div>;
@@ -29,8 +29,8 @@ const ProjectTemplatePage: React.FC<Props> = ({
   }
 
   let waitlist = <div></div>
-  if (code !== '' && code !== null && code !== undefined) {
-    waitlist = <Waitlist code={code!} />
+  if (waitlistCode !== '' && waitlistCode !== null && waitlistCode !== undefined) {
+    waitlist = <Waitlist code={waitlistCode!} />
   }
 
   return (

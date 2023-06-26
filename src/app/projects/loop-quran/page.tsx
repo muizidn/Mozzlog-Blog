@@ -6,7 +6,7 @@ export default function Page() {
       name="Loop Quran"
       tagline="Remember Quran by Looping"
       description="Quran is amazing. You can remember its verses by continuously listening to its recitation."
-      code='PdQGwZ'
+      waitlistCode='PdQGwZ'
     />
   );
 }
