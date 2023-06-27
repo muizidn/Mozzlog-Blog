@@ -88,6 +88,14 @@ function syncWriteFile(data, file) {
   });
 }
 
+function removeFile(file) {
+  const filepath = join(process.env.PWD || '', `cache/notion_records/${file}`)
+  if (!fs.existsSync(filepath)) {
+    return;
+  }
+  fs.unlinkSync(filepath);
+}
+
 async function run() {
   const freshPosts = await getUpdatedPostsAfterLastFetch()
   updateLastFetch()
@@ -105,6 +113,9 @@ async function run() {
     } else {
       newPosts.push(post)
     }
+
+    removeFile(post.id + ".json")
+    console.log("Update post " + post.id + " " + post.title)
   }
 
   const finalPosts = newPosts.concat(oldPosts);
