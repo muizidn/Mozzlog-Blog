@@ -33,6 +33,11 @@ export default function ProjectsPage() {
           Loop Quran (last commit 1 day ago)
         </h3>
       </Link>
+      <Link href="/projects/seo-sails">
+        <h3 className="mt-12 text-center text-3xl">
+          SEO Sails (last commit 1 day ago)
+        </h3>
+      </Link>
       <Link href="/projects/freebio">
         <h3 className="mt-12 text-center text-3xl">
           Free Bio (Released)
