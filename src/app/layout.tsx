@@ -1,10 +1,11 @@
+import Script from 'next/script';
+
+import { Analytics } from '@vercel/analytics/react';
 import 'katex/dist/katex.min.css';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'react-notion-x/src/styles.css';
 
 import Header from '@/components/header/header';
-import { Analytics } from '@vercel/analytics/react';
-import Script from 'next/script';
 import Provider from '@/components/provider';
 import ScrollUpButton from '@/components/scroll-up-button';
 import '@/styles/globals.css';
@@ -26,11 +27,12 @@ export default function RootLayout({
     <html lang="en">
       {/* https://enlear.academy/add-google-analytics-to-a-next-js-application-5525892844db */}
       <Script
+        id="load-google-analytics"
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS}`}
       />
 
-      <Script strategy="lazyOnload">
+      <Script id="setup-google-analytics" strategy="lazyOnload">
         {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
