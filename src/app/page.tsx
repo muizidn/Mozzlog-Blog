@@ -1,5 +1,4 @@
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
-import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Welcome | Mozzlog',
@@ -26,7 +25,6 @@ export default function HomePage() {
           <SubscribeNewsletter />
         </div>
       </div>
-      <Analytics />
     </>
   );
 }
