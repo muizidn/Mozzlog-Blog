@@ -20,10 +20,20 @@ async function getUpdatedPostsAfterLastFetch() {
       }
     })
   }
+
+  filters.push({
+    property: "Date",
+    date: {
+      is_not_empty: true
+    }
+  })
+
+  console.log(filters)
+
   const response = await notion.databases.query({
     database_id: database_id,
     filter: {
-      or: filters
+      and: filters
     },
     sorts: []
   })
@@ -61,7 +71,7 @@ function lastFetch() {
     return null
   }
   const contents = fs.readFileSync(filepath, "utf-8").trim()
-  if (contents === "") { return null;}
+  if (contents === "") { return null; }
   return new Date(contents)
 }
 
