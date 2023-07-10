@@ -23,11 +23,12 @@ const ProjectTemplatePage: React.FC<Props> = ({
   let imageEl = <div></div>;
   if (isValid(image)) {
     imageEl = (
-      <img
-        className="w-2.5/4 right-0 top-0 hidden h-full object-contain lg:block"
+      <Image
         src={image!}
         alt=""
-      ></img>
+        width={2000}
+        height={1000}
+      ></Image>
     );
   }
 
