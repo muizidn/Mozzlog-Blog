@@ -4,12 +4,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { ExtendedRecordMap } from 'notion-types';
+
+import BlogComments from '@/components/blog-comment';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
 import { getPageRawRecordMap } from '@/libs/notion';
+import {
+  saveRecordMapToDatabase,
+  readRecordMapFromDatabase,
+} from '@/services/db_record_map';
 import { getAllPostsFromNotion } from '@/services/posts';
 import { Post } from '@/types/post';
-import { saveRecordMapToDatabase, readRecordMapFromDatabase } from '@/services/db_record_map';
 
 export default async function PostPage({
   params: { slug },
@@ -43,13 +48,13 @@ export default async function PostPage({
       p.slug !== slug && p.categories.some((v) => post.categories.includes(v))
   );
 
-  let recordMap = await readRecordMapFromDatabase(post.id)
+  let recordMap = await readRecordMapFromDatabase(post.id);
   if (recordMap === null) {
     const recordMapRaw = await getPageRawRecordMap(post.id);
     recordMap = recordMapRaw.recordMap;
   }
   const extendedRecordMap = recordMap as unknown as ExtendedRecordMap;
-  saveRecordMapToDatabase(post.id, recordMap)
+  saveRecordMapToDatabase(post.id, recordMap);
 
   let image = null;
   if (post.cover !== null) {
@@ -73,6 +78,9 @@ export default async function PostPage({
         {image}
         <NotionPage post={post} recordMap={extendedRecordMap} />
       </article>
+      <div className="mx-60 items-center">
+        <BlogComments post={post} />
+      </div>
       <RelatedPosts posts={relatedPosts} />
     </>
   );
