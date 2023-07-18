@@ -27,9 +27,9 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <div className="absolute right-[10vw] top-12 md:static">
+        {/* <div className="absolute right-[10vw] top-12 md:static">
           <ThemeToggle />
-        </div>
+        </div> */}
       </div>
     </nav>
   );
