@@ -3,16 +3,18 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { useTheme } from 'next-themes';
 import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
+import Code from './code';
+import { Mixpanel } from '@/app/mixpanel';
 import CategoryList from '@/components/category-list';
 import useMounted from '@/hooks/use-mounted';
 import '@/styles/notion.css';
 import { Post } from '@/types/post';
-import Code from './code'
 
 export default function NotionPage({
   post,
@@ -23,6 +25,14 @@ export default function NotionPage({
 }) {
   const { theme } = useTheme();
   const mounted = useMounted();
+
+  useEffect(() => {
+    Mixpanel.track('View Article', {
+      slug: post.slug,
+      title: post.title,
+      id: post.id,
+    });
+  });
 
   return (
     <NotionRenderer
