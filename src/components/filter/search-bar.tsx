@@ -26,7 +26,7 @@ export default function SearchBar() {
   return (
     <div
       ref={hoverRef}
-      className="relative mx-auto w-[80%] max-w-[24rem] md:mx-0"
+      className="relative mx-auto w-[80%] md:mx-0"
     >
       <BsSearch className=" absolute left-6 flex h-full items-center text-xl text-gray-400" />
       {query && (isHovering || isFocusing) && (
