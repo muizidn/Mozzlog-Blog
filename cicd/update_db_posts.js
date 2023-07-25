@@ -45,7 +45,7 @@ async function getUpdatedPostsAfterLastFetch() {
     const title = post.properties.Page.title.pop()?.plain_text || ""
     const slug = post.properties.Slug.rich_text.pop()?.plain_text || ""
     const categories = post.properties.Category.multi_select.map(e => e.name)
-    const cover = post.properties.Cover.files.pop()?.external.url || null
+    const cover = null
     const date = post.properties.Date.date.start
     const published = post.properties.Published.checkbox
     const lastEditedAt = new Date(post.last_edited_time).valueOf()
