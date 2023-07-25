@@ -11,7 +11,7 @@ const BlogComments = ({ post }: { post: Post }) => {
   }
   const disqusShortname = 'mozzlog';
   const disqusConfig = {
-    url: 'https://mozzlog.com/blog/' + post.slug,
+    url: `${process.env.SITE_URL}/blog/` + post.slug,
     identifier: post.id, // Single post id
     title: post.title, // Single post title
   };
