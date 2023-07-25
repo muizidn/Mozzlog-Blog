@@ -1,10 +1,14 @@
+import PostsGrid from '@/components/posts/posts-grid';
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
+import { getAllPostsFromNotion } from '@/services/posts';
 
 export const metadata = {
   title: 'Welcome | Mozzlog',
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const allPosts = await getAllPostsFromNotion();
+
   return (
     <>
       <h1 className="mt-12 text-center text-3xl font-bold">
@@ -13,18 +17,22 @@ export default function HomePage() {
       <h2 className="mt-12 text-center text-3xl">
         We find problems. We get some help.
       </h2>
-      <h2 className="mt-12 text-center text-3xl">
+      <h3 className="mt-12 text-center text-3xl">
         We solve it. We share our learning.
-      </h2>
-      <h2 className="mt-12 text-center text-3xl">OK?</h2>
+      </h3>
+      <h3 className="mt-12 text-center text-3xl">OK?</h3>
       <div className="space-y-4">
-        <h3 className="mt-12 text-center text-3xl font-bold">
+        <h2 className="mt-12 text-center text-3xl font-bold">
           Weekly update is a must. Sometimes more.
-        </h3>
+        </h2>
         <div className="grid justify-items-center">
           <SubscribeNewsletter />
         </div>
       </div>
+      <h2 className="mt-12 text-3xl font-bold">Post for Today</h2>
+      <PostsGrid paginate={false} allPosts={allPosts.slice(0,12)} />
+      <h2 className="mt-12 text-3xl font-bold">Other Posts</h2>
+      <PostsGrid paginate={false} allPosts={allPosts.reverse().slice(0,12)} />
     </>
   );
 }

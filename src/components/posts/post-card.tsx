@@ -19,7 +19,7 @@ export default function PostCard({
     <Link href={`/blog/${slug}`}>
       <div className="flex">
         <div className="flex h-48 flex-col p-4">
-          <h3 className="h-16 text-6xl font-bold">{number}</h3>
+          <p className="h-16 text-6xl font-bold">{number}</p>
         </div>
         <article className="mx-auto flex max-w-[25rem] flex-col overflow-hidden rounded-xl transition-all duration-300">
           <div className="flex h-48 flex-col p-4">
