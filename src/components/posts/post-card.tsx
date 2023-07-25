@@ -19,9 +19,9 @@ export default function PostCard({
     <Link href={`/blog/${slug}`}>
       <div className="flex">
         <div className="flex h-48 flex-col p-4">
-          <p className="h-16 text-6xl font-bold">{number}</p>
+          <p className="h-16 text-4xl font-bold">{number>9?'':0}{number}</p>
         </div>
-        <article className="mx-auto flex max-w-[25rem] flex-col overflow-hidden rounded-xl transition-all duration-300">
+        <article className="mx-auto flex max-w-[30rem] flex-col overflow-hidden rounded-xl transition-all duration-300">
           <div className="flex h-48 flex-col p-4">
             <h3 className="line-clamp-2 h-16 text-2xl font-bold">{title}</h3>
             <time className="mb-4 mt-2 pl-2 text-sm text-gray-400">{date}</time>
