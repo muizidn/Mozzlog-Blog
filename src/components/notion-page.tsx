@@ -10,7 +10,7 @@ import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
 import Code from './code';
-import { Mixpanel } from '@/app/mixpanel';
+import { Mixpanel } from '@/services/mixpanel';
 import CategoryList from '@/components/category-list';
 import useMounted from '@/hooks/use-mounted';
 import '@/styles/notion.css';
@@ -31,8 +31,9 @@ export default function NotionPage({
       slug: post.slug,
       title: post.title,
       id: post.id,
+      categories: post.categories
     });
-  });
+  }, []);
 
   return (
     <NotionRenderer

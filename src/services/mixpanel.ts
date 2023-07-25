@@ -3,8 +3,8 @@ import mixpanel, { Dict, Query } from "mixpanel-browser";
 
 const isProd = process.env.NODE_ENV === "production";
 
-mixpanel.init(`${process.env.MIXPANEL_TOKEN}`, {
-  api_host: `${process.env.SITE_URL}/mp`,
+mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_TOKEN}`, {
+  api_host: `${process.env.NEXT_PUBLIC_SITE_URL}/mp`,
 });
 
 export const Mixpanel = {
