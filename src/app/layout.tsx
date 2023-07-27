@@ -23,8 +23,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  let dataDomain = `${process.env.NEXT_PUBLIC_BASE_DOMAIN || ''}`
   return (
     <html lang="en">
+      <head>
+      <script defer data-domain={dataDomain} src="https://plausible.io/js/script.js"></script>
+      </head>
       {/* https://enlear.academy/add-google-analytics-to-a-next-js-application-5525892844db */}
       <Script
         id="load-google-analytics"
