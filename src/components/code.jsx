@@ -7,6 +7,7 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-c.js'),
       import('prismjs/components/prism-shell-session.js'),
       import('prismjs/components/prism-bash.js'),
+      import('prismjs/components/prism-rust.js'),
       ]);
     return m.Code;
   })
