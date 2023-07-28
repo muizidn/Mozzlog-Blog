@@ -5,6 +5,8 @@ const Code = dynamic(() =>
     await Promise.all([
       import('prismjs/components/prism-swift.js'),
       import('prismjs/components/prism-c.js'),
+      import('prismjs/components/prism-shell-session.js'),
+      import('prismjs/components/prism-bash.js'),
       ]);
     return m.Code;
   })
