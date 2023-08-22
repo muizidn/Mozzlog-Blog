@@ -7,6 +7,11 @@ export async function getAllPostsFromNotion() {
   return posts.filter((post) => post.published);
 }
 
+export async function getAllPostsSlugs(): Promise<string[]> {
+  const posts = await readPostsFromDatabase()
+  return posts.filter((post) => post.published).map((post) => post.slug);
+}
+
 export async function getPostWithSlug(slug: string): Promise<Post | undefined> {
   const posts = await readPostsFromDatabase()
   return posts.filter((post) => post.published).find((post) => post.slug === slug);

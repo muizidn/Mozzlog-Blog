@@ -13,8 +13,7 @@ import {
   saveRecordMapToDatabase,
   readRecordMapFromDatabase,
 } from '@/services/db_record_map';
-import { getAllPostsFromNotion, getPostWithSlug, getRelatedPosts } from '@/services/posts';
-import { Post } from '@/types/post';
+import { getAllPostsSlugs, getPostWithSlug, getRelatedPosts } from '@/services/posts';
 
 export default async function PostPage({
   params: { slug },
@@ -81,10 +80,10 @@ export default async function PostPage({
 }
 
 export async function generateStaticParams() {
-  const allPosts = await getAllPostsFromNotion();
+  const slugs = await getAllPostsSlugs();
 
-  return allPosts.map((post) => ({
-    slug: post.slug,
+  return slugs.map((slug) => ({
+    slug: slug,
   }));
 }
 
