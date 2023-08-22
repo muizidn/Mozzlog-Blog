@@ -15,6 +15,10 @@ const nextConfig = {
         hostname: 'bmwvfjerbeswbgqrwmfp.supabase.co',
       },
       {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
         protocol: 'https',
         hostname: 'raw.githubusercontent.com',
       },

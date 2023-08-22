@@ -45,7 +45,7 @@ export default async function PostPage({
       >
       <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
-          src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
+          src={post.cover || process.env.SITE_URL + "/api/og?title=" + encodeURIComponent(post.title)}
           alt="cover"
           fill
           style={{ objectFit: 'contain' }}
@@ -82,7 +82,7 @@ export async function generateMetadata({
         openGraph: {
           images: [
             {
-              url: post.cover || "/api/og?title=" + encodeURIComponent(post.title),
+              url: post.cover || process.env.SITE_URL + "/api/og?title=" + encodeURIComponent(post.title),
               width: 400,
               height: 300,
             },
