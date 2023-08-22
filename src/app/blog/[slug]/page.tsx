@@ -80,11 +80,12 @@ export async function generateMetadata({
     ? {
         title: post.title,
         openGraph: {
+          title: post.title,
           images: [
             {
-              url: post.cover || process.env.SITE_URL + "/api/og?title=" + encodeURIComponent(post.title),
-              width: 400,
-              height: 300,
+              url: post.cover || "/api/og?title=" + encodeURIComponent(post.title),
+              width: 1200,
+              height: 630,
             },
           ],
         },
