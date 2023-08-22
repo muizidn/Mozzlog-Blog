@@ -1,51 +1,29 @@
+import { readPostsFromDatabase } from '@/services/posts';
+import { Post } from '@/types/post';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { gql } from 'graphql-tag';
 
-// Sample data
-const posts = [
-  {
-    id: '1',
-    slug: 'post-1',
-    title: 'Sample Post 1',
-    categories: ['Category 1'],
-    cover: 'cover-url-1',
-    date: '2023-08-22',
-    published: true,
-    lastEditedAt: 1629638400000,
-  },
-  // ... add more posts
-];
-
-interface Post {
-  id: string;
-  slug: string;
-  title: string;
-  categories: string[];
-  cover: string | null;
-  date: string;
-  published: boolean;
-  lastEditedAt: number;
-}
-
 const resolvers = {
-  Query: {
-    getPost: async (parent: any, args: { id: string }) => {
-      const { id } = args;
-      return await findPostById(id);
+    Query: {
+        getPost: async (parent: any, args: { id: string }) => {
+            const { id } = args;
+            return await findPostById(id);
+        },
+        getAllPosts: async () => {
+            return await fetchAllPosts();
+        },
     },
-    getAllPosts: async () => {
-      return await fetchAllPosts();
-    },
-  },
 };
 
 async function findPostById(id: string): Promise<Post | undefined> {
-  return posts.find((post: Post) => post.id === id);
+    const posts = await readPostsFromDatabase();
+    return posts.find((post: Post) => post.id === id);
 }
 
 async function fetchAllPosts(): Promise<Post[]> {
-  return posts;
+    const posts = await readPostsFromDatabase();
+    return posts;
 }
 
 const typeDefs = gql`
@@ -67,8 +45,8 @@ const typeDefs = gql`
 `;
 
 const server = new ApolloServer({
-  resolvers,
-  typeDefs,
+    resolvers,
+    typeDefs,
 });
 
 export default startServerAndCreateNextHandler(server);
