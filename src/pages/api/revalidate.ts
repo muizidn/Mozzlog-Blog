@@ -15,7 +15,7 @@ export default async function handler(
   }
 
   try {
-    if (process.env.NODE_ENV !== 'test') {
+    if (process.env.NODE_ENV !== 'development') {
       await res.revalidate(path);
     }
     return res.status(201).json({ message: `Revalidated ${path}` });
