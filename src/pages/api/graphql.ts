@@ -30,13 +30,23 @@ interface Post {
 
 const resolvers = {
   Query: {
-    getPost: (parent: any, args: { id: string }) => {
+    getPost: async (parent: any, args: { id: string }) => {
       const { id } = args;
-      return posts.find((post: Post) => post.id === id);
+      return await findPostById(id);
     },
-    getAllPosts: () => posts,
+    getAllPosts: async () => {
+      return await fetchAllPosts();
+    },
   },
 };
+
+async function findPostById(id: string): Promise<Post | undefined> {
+  return posts.find((post: Post) => post.id === id);
+}
+
+async function fetchAllPosts(): Promise<Post[]> {
+  return posts;
+}
 
 const typeDefs = gql`
   type Post {
