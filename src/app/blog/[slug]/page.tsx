@@ -37,26 +37,20 @@ export default async function PostPage({
   const relatedPosts = await getRelatedPosts(post);
   let recordMap = await getPageRecordMap(post)
 
-  let image = null;
-  if (post.cover !== null) {
-    image = (
+  return (
+    <>
+      <article
+        data-revalidated-at={new Date().getTime()}
+        className="flex flex-col items-center"
+      >
       <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
-          src={post.cover}
+          src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
           alt="cover"
           fill
           style={{ objectFit: 'contain' }}
         />
       </div>
-    );
-  }
-  return (
-    <>
-      <article
-        data-revalidated-at={new Date().getTime()}
-        className="mt-4 flex flex-col items-center md:mt-20"
-      >
-        {image}
         <NotionPage post={post} recordMap={recordMap} />
       </article>
       <div className="mx-60 items-center">
