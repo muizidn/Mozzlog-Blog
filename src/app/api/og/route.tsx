@@ -37,7 +37,7 @@ export async function GET(request: Request) {
               alignSelf: 'center',
             }}
           >
-            mozzlog.com
+            {process.env.OPENGRAPH_TITLE}
           </div>
           <div
             style={{

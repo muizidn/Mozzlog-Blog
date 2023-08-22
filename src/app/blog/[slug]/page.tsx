@@ -88,7 +88,7 @@ export async function generateMetadata({
         openGraph: {
           images: [
             {
-              url: post.cover || '',
+              url: post.cover || "/api/og?title=" + encodeURIComponent(post.title),
               width: 400,
               height: 300,
             },
