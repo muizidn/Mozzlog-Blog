@@ -93,8 +93,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const allPosts = await getAllPostsFromNotion();
-  const post = allPosts.find((p) => p.slug === slug);
+  const post = await getPostWithSlug(slug);
 
   return post
     ? {
