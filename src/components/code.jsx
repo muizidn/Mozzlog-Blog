@@ -10,6 +10,7 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-rust.js'),
       import('prismjs/components/prism-kotlin.js'),
       import('prismjs/components/prism-go.js'),
+      import('prismjs/components/prism-python.js'),
       ]);
     return m.Code;
   })
