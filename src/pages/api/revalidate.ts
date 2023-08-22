@@ -15,7 +15,7 @@ export default async function handler(
   }
 
   try {
-    if (process.env.NODE_ENV !== 'development') {
+    if (process.env.NODE_ENV !== 'test') {
       await res.revalidate(path);
     }
     return res.status(201).json({ message: `Revalidated ${path}` });
@@ -25,3 +25,6 @@ export default async function handler(
       .json({ message: 'Failed to revalidate', error: getErrorMessage(e) });
   }
 }
+
+
+// http://localhost:3000/api/revalidate?path=/blog/golang-files-tutorial-beginner
