@@ -13,7 +13,7 @@ import {
   saveRecordMapToDatabase,
   readRecordMapFromDatabase,
 } from '@/services/db_record_map';
-import { getAllPostsFromNotion } from '@/services/posts';
+import { getAllPostsFromNotion, getPostWithSlug, getRelatedPosts } from '@/services/posts';
 import { Post } from '@/types/post';
 
 export default async function PostPage({
@@ -21,9 +21,7 @@ export default async function PostPage({
 }: {
   params: { slug: string };
 }) {
-  const allPosts = await getAllPostsFromNotion();
-
-  const post = allPosts.find((p) => p.slug === slug);
+  const post = await getPostWithSlug(slug)
   if (!post) {
     return notFound();
   }
@@ -43,11 +41,7 @@ export default async function PostPage({
     );
   }
 
-  const relatedPosts: Post[] = allPosts.filter(
-    (p) =>
-      p.slug !== slug && p.categories.some((v) => post.categories.includes(v))
-  );
-
+  const relatedPosts = await getRelatedPosts(post);
   let recordMap = await readRecordMapFromDatabase(post.id);
   if (recordMap === null) {
     const recordMapRaw = await getPageRawRecordMap(post.id);
