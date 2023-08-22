@@ -1,10 +1,22 @@
 import { Post } from '@/types/post';
+import { toUniqueArray } from '@/utils/to-unique-array';
 import fs from 'fs';
 import { join } from 'path';
 
 export async function getAllPostsFromNotion() {
   const posts = await readPostsFromDatabase()
   return posts.filter((post) => post.published);
+}
+
+export async function getAllPostCategories(): Promise<string[]> {
+  const allPosts = await getAllPostsFromNotion();
+
+  const allCategories = toUniqueArray(
+    allPosts
+      .map((post) => post.categories)
+      .flat()
+  ).sort();
+  return allCategories;
 }
 
 export async function getAllPostsSlugs(): Promise<string[]> {
