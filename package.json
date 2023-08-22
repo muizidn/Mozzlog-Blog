@@ -13,6 +13,8 @@
     "update_db_posts": "node cicd/update_db_posts.js"
   },
   "dependencies": {
+    "@apollo/server": "^4.9.1",
+    "@as-integrations/next": "^2.0.2",
     "@notionhq/client": "^2.2.5",
     "@prisma/client": "^4.14.0",
     "@supabase/supabase-js": "^2.22.0",
@@ -20,12 +22,12 @@
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "@vercel/analytics": "^1.0.1",
-    "apollo-server": "^3.12.0",
     "axios": "^1.4.0",
     "disqus-react": "^1.1.5",
     "encoding": "^0.1.13",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "graphql-tag": "^2.12.6",
     "hangul-chosung-search": "^1.0.2",
     "is-mobile": "^4.0.0",
     "jsdom": "^22.0.0",
