@@ -43,14 +43,14 @@ export default async function PostPage({
         data-revalidated-at={new Date().getTime()}
         className="flex flex-col items-center"
       >
-      <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
+      {/* <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
-          src={post.cover || process.env.SITE_URL + "/api/og?title=" + encodeURIComponent(post.title)}
+          src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
           alt="cover"
           fill
           style={{ objectFit: 'contain' }}
         />
-      </div>
+      </div> */}
         <NotionPage post={post} recordMap={recordMap} />
       </article>
       <div className="mx-60 items-center">
