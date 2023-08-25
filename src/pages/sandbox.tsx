@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 const ApolloSandbox: React.FC = () => {
 	const graphQLEndpoint = process.env.NEXT_PUBLIC_SITE_URL + "/api/graphql"
-  console.log(process.env)
 
   useEffect(() => {
     const sandboxHTML = `
