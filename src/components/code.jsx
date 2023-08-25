@@ -11,6 +11,7 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-kotlin.js'),
       import('prismjs/components/prism-go.js'),
       import('prismjs/components/prism-python.js'),
+      import('prismjs/components/prism-graphql.js'),
       ]);
     return m.Code;
   })
