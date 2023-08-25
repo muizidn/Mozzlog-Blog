@@ -2,19 +2,24 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 
 import BlogComments from '@/components/blog-comment';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
-import { getAllPostsSlugs, getPostWithSlug, getRelatedPosts } from '@/services/posts';
 import { getPageRecordMap } from '@/services/page_record_map';
+import {
+  getAllPostsSlugs,
+  getPostWithSlug,
+  getRelatedPosts,
+} from '@/services/posts';
 
 export default async function PostPage({
   params: { slug },
 }: {
   params: { slug: string };
 }) {
-  const post = await getPostWithSlug(slug)
+  const post = await getPostWithSlug(slug);
   if (!post) {
     return notFound();
   }
@@ -35,15 +40,30 @@ export default async function PostPage({
   }
 
   const relatedPosts = await getRelatedPosts(post);
-  let recordMap = await getPageRecordMap(post)
+  let recordMap = await getPageRecordMap(post);
 
   return (
     <>
+      <Script
+        src="https://giscus.app/client.js"
+        data-repo={process.env.GISCUS_BLOG_REPO}
+        data-repo-id={process.env.GISCUS_BLOG_REPO}
+        data-category="Blog"
+        data-category-id="blog" // for each post create a discussion title blog/<post.slug>
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        async
+      ></Script>
       <article
         data-revalidated-at={new Date().getTime()}
         className="flex flex-col items-center"
       >
-      {/* <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
+        {/* <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
           src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
           alt="cover"
@@ -52,10 +72,9 @@ export default async function PostPage({
         />
       </div> */}
         <NotionPage post={post} recordMap={recordMap} />
-      </article>
-      <div className="mx-60 items-center">
-        <BlogComments post={post} />
+        <div className="mx-60 items-center giscus lg:w-[60%] md:w-full">
       </div>
+      </article>
       <RelatedPosts posts={relatedPosts} />
     </>
   );
@@ -83,7 +102,11 @@ export async function generateMetadata({
           title: post.title,
           images: [
             {
-              url: post.cover || process.env.NEXT_PUBLIC_SITE_URL + "/api/og?title=" + encodeURIComponent(post.title),
+              url:
+                post.cover ||
+                process.env.NEXT_PUBLIC_SITE_URL +
+                  '/api/og?title=' +
+                  encodeURIComponent(post.title),
               width: 1200,
               height: 630,
             },
