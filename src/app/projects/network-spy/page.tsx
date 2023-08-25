@@ -6,7 +6,7 @@ export const metadata = {
   openGraph: {
     title: "Network Spy · Develop, Debug, Analyze. Optimize your application like never before",
     type: "website",
-    url: `${process.env.SITE_URL}/projects/network-spy`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/projects/network-spy`,
     images: 'https://bmwvfjerbeswbgqrwmfp.supabase.co/storage/v1/object/public/mozzlog/NetworkSpy_opengraph.png',
     description: "Network Spy is your friend to find and raise your application networking game to the next level. Monitor, inspect, and modify your network traffic in the platform you love."
   }

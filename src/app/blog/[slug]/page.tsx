@@ -83,7 +83,7 @@ export async function generateMetadata({
           title: post.title,
           images: [
             {
-              url: post.cover || process.env.SITE_URL + "/api/og?title=" + encodeURIComponent(post.title),
+              url: post.cover || process.env.NEXT_PUBLIC_SITE_URL + "/api/og?title=" + encodeURIComponent(post.title),
               width: 1200,
               height: 630,
             },

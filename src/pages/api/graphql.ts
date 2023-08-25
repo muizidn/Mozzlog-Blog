@@ -14,6 +14,20 @@ const resolvers = {
             return await fetchAllPosts();
         },
     },
+    Mutation: {
+        addPostToFavorite: async (parent: any, args: { id: string }) => {
+          const { id } = args;
+          console.log("id", id)
+          const post = await findPostById(id);
+    
+          if (post) {
+            post.title = "[FAVORITED] "+post.title;
+            return post
+          } else {
+            throw new Error('Post not found');
+          }
+        },
+      },
 };
 
 async function findPostById(id: string): Promise<Post | undefined> {
@@ -35,12 +49,16 @@ const typeDefs = gql`
     cover: String
     date: String!
     published: Boolean!
-    lastEditedAt: Int!
+    lastEditedAt: Float!
   }
 
   type Query {
     getPost(id: ID!): Post
     getAllPosts: [Post!]!
+  }
+
+  type Mutation {
+    addPostToFavorite(id: ID!): Post
   }
 `;
 
