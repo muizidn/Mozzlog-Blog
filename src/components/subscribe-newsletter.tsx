@@ -1,7 +1,7 @@
 'use client';
 
 import { ChangeEvent, useState } from "react";
-import { Mixpanel } from "@/services/mixpanel";
+import { Analytics } from "@/services/analytics";
 
 export default function SubscribeNewsletter() {
     const [email, setEmail] = useState('')
@@ -17,7 +17,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     x.send(JSON.stringify({
         email: email,
     }))
-    Mixpanel.track("Subscribe Newsletter")
+    Analytics.track("Subscribe Newsletter")
     x.onload = () => {
       setEmail('');
       alert("Success! You have successfully subscribed")

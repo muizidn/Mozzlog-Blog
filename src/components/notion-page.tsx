@@ -10,7 +10,7 @@ import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
 import Code from './code';
-import { Mixpanel } from '@/services/mixpanel';
+import { Analytics } from '@/services/analytics';
 import CategoryList from '@/components/category-list';
 import useMounted from '@/hooks/use-mounted';
 import '@/styles/notion.css';
@@ -27,7 +27,7 @@ export default function NotionPage({
   const mounted = useMounted();
 
   useEffect(() => {
-    Mixpanel.track('View Article', {
+    Analytics.track('View Article', {
       slug: post.slug,
       title: post.title,
       id: post.id,

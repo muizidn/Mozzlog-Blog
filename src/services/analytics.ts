@@ -7,7 +7,7 @@ mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_TOKEN}`, {
   api_host: `${process.env.NEXT_PUBLIC_ANALYTICS_API_URL}/mp`,
 });
 
-export const Mixpanel = {
+export const Analytics = {
   identify: (id: string) => {
     mixpanel.identify(id);
   },
