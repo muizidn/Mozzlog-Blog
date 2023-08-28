@@ -1,24 +1,28 @@
-'use client';
+import Script from 'next/script';
+import React from 'react';
 
-import { DiscussionEmbed } from 'disqus-react';
-import isMobile from 'is-mobile';
-
-import { Post } from '@/types/post';
-
-const BlogComments = ({ post }: { post: Post }) => {
-  if (isMobile()) {
-    return <></>;
-  }
-  const disqusShortname = 'mozzlog';
-  const disqusConfig = {
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/` + post.slug,
-    identifier: post.id, // Single post id
-    title: post.title, // Single post title
-  };
+const BlogComments: React.FC = ({}) => {
   return (
-    <div>
-      <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-    </div>
+    <>
+      <Script
+        src="https://giscus.app/client.js"
+        data-repo={process.env.GISCUS_BLOG_REPO}
+        data-repo-id={process.env.GISCUS_BLOG_REPO}
+        data-category="Blog"
+        data-category-id="blog" // for each post create a discussion title blog/<post.slug>
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        async
+      ></Script>
+      <div className="giscus mx-60 items-center md:w-full lg:w-[60%]"></div>
+    </>
   );
 };
+
+
 export default BlogComments;

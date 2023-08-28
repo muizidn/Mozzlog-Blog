@@ -44,21 +44,6 @@ export default async function PostPage({
 
   return (
     <>
-      <Script
-        src="https://giscus.app/client.js"
-        data-repo={process.env.GISCUS_BLOG_REPO}
-        data-repo-id={process.env.GISCUS_BLOG_REPO}
-        data-category="Blog"
-        data-category-id="blog" // for each post create a discussion title blog/<post.slug>
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="light"
-        data-lang="en"
-        async
-      ></Script>
       <article
         data-revalidated-at={new Date().getTime()}
         className="flex flex-col items-center"
@@ -72,8 +57,7 @@ export default async function PostPage({
         />
       </div> */}
         <NotionPage post={post} recordMap={recordMap} />
-        <div className="mx-60 items-center giscus lg:w-[60%] md:w-full">
-      </div>
+        <BlogComments/>
       </article>
       <RelatedPosts posts={relatedPosts} />
     </>
