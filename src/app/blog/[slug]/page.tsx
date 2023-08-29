@@ -7,6 +7,7 @@ import Script from 'next/script';
 import BlogComments from '@/components/blog-comment';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
+import SharingButtons from '@/components/share-buttons';
 import { getPageRecordMap } from '@/services/page_record_map';
 import {
   getAllPostsSlugs,
@@ -42,6 +43,13 @@ export default async function PostPage({
   const relatedPosts = await getRelatedPosts(post);
   let recordMap = await getPageRecordMap(post);
 
+  const encodedUrl = encodeURIComponent(
+    process.env.NEXT_PUBLIC_SITE_URL + '/blog/' + post.slug
+  );
+  const text = encodeURIComponent(
+    "Hmm, I just read this. I'll repost it to revisit later. You can too!"
+  );
+
   return (
     <>
       <article
@@ -56,8 +64,9 @@ export default async function PostPage({
           style={{ objectFit: 'contain' }}
         />
       </div> */}
+        <SharingButtons encodedUrl={encodedUrl} text={text} />
         <NotionPage post={post} recordMap={recordMap} />
-        <BlogComments/>
+        <BlogComments />
       </article>
       <RelatedPosts posts={relatedPosts} />
     </>
