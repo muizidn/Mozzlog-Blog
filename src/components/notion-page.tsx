@@ -3,16 +3,13 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 import { useTheme } from 'next-themes';
 import { ExtendedRecordMap } from 'notion-types';
 import { NotionRenderer } from 'react-notion-x';
 
 import Code from './code';
-import { Analytics } from '@/services/analytics';
 import CategoryList from '@/components/category-list';
-import useMounted from '@/hooks/use-mounted';
 import '@/styles/notion.css';
 import { Post } from '@/types/post';
 
@@ -24,28 +21,30 @@ export default function NotionPage({
   recordMap: ExtendedRecordMap;
 }) {
   const { theme } = useTheme();
-  const mounted = useMounted();
 
-  useEffect(() => {
-    Analytics.track('View Article', {
-      slug: post.slug,
-      title: post.title,
-      id: post.id,
-      categories: post.categories
-    });
-  }, []);
+
+  var lastEditDate = new Date(post.lastEditedAt);
+
+  var year = lastEditDate.toLocaleString('default', { year: 'numeric' });
+  var month = lastEditDate.toLocaleString('default', { month: '2-digit' });
+  var day = lastEditDate.toLocaleString('default', { day: '2-digit' });
+
+  var lastEditFormatted = year + '-' + month + '-' + day;
 
   return (
     <NotionRenderer
-      darkMode={mounted ? theme === 'dark' : false}
+      darkMode={false}
       recordMap={recordMap}
       fullPage
       forceCustomImages
       showTableOfContents
       disableHeader
       pageHeader={
-        <div className="mb-4">
-          <CategoryList categories={post.categories} />
+        <div className="flex flex-col">
+          <div className="mb-4">
+            <CategoryList categories={post.categories} />
+          </div>
+          <div>Last updated at {lastEditFormatted}</div>
         </div>
       }
       components={{
