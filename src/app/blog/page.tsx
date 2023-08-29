@@ -1,7 +1,7 @@
 import CategoryFilter from '@/components/filter/category-filter';
 import SearchBar from '@/components/filter/search-bar';
 import PostsGrid from '@/components/posts/posts-grid';
-import { getAllPostsFromNotion, getAllPostCategories } from '@/services/posts';
+import { getAllPosts, getAllPostCategories } from '@/services/posts';
 
 export const metadata = {
   title: 'Blog',
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const allPosts = await getAllPostsFromNotion();
+  const allPosts = await getAllPosts();
   const allCategories = await getAllPostCategories();
 
   return (

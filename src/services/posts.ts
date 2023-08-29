@@ -3,13 +3,13 @@ import { toUniqueArray } from '@/utils/to-unique-array';
 import fs from 'fs';
 import { join } from 'path';
 
-export async function getAllPostsFromNotion() {
+export async function getAllPosts() {
   const posts = await readPostsFromDatabase()
   return posts.filter((post) => post.published);
 }
 
 export async function getAllPostCategories(): Promise<string[]> {
-  const allPosts = await getAllPostsFromNotion();
+  const allPosts = await getAllPosts();
 
   const allCategories = toUniqueArray(
     allPosts

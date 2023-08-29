@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
 
-import { getAllPostsFromNotion } from '@/services/posts';
+import { getAllPosts } from '@/services/posts';
 
 export default async function sitemap() {
-  const allPosts = await getAllPostsFromNotion();
+  const allPosts = await getAllPosts();
   const sitemap: MetadataRoute.Sitemap = [];
 
   for (const post of allPosts) {

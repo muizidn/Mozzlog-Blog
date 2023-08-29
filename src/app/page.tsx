@@ -1,13 +1,13 @@
 import PostsGrid from '@/components/posts/posts-grid';
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
-import { getAllPostsFromNotion } from '@/services/posts';
+import { getAllPosts } from '@/services/posts';
 
 export const metadata = {
   title: 'Welcome | Mozzlog',
 };
 
 export default async function HomePage() {
-  const allPosts = await getAllPostsFromNotion();
+  const allPosts = await getAllPosts();
 
   return (
     <>
