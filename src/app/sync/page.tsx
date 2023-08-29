@@ -82,7 +82,6 @@ const SyncPage = () => {
 
   return (
     <div className="mt-[10vh] text-center">
-      <p className="text-3xl">{message}</p>
       <div className="flex items-center space-x-4">
         <DatePicker
           selected={selectedDate}
@@ -101,6 +100,7 @@ const SyncPage = () => {
           Synchronize
         </button>
       </div>
+      <p className="text-3xl">{message}</p>
       <div>
         {posts.length > 0 && (
           <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
