@@ -17,6 +17,8 @@ export async function getPageRecordMap(post: Post): Promise<ExtendedRecordMap> {
         recordMap = recordMapRaw.recordMap;
     }
     const extendedRecordMap = recordMap as unknown as ExtendedRecordMap;
-    saveRecordMapToDatabase(post.id, recordMap);
+    if (process.env.NODE_ENV === 'development') {
+        saveRecordMapToDatabase(post.id, recordMap);
+    }
     return extendedRecordMap
 }
