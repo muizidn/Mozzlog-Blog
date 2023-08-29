@@ -2,7 +2,7 @@ import { Post } from '@/types/post';
 import { toUniqueArray } from '@/utils/to-unique-array';
 import fs from 'fs';
 import { join } from 'path';
-import getUpdatedOrNewPosts from '@/app/api/posts/getUpdatedOrNewPosts';
+import getUpdatedOrNewPosts from './getOrUpdateNewPosts';
 
 export async function getAllPosts() {
   const posts = await readPostsFromDatabase()

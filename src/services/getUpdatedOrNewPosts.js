@@ -1,10 +1,4 @@
-import { Client } from '@notionhq/client';
-
-const apiKey = process.env.NOTION_API_KEY
-const database_id = process.env.NOTION_DATABASE_ID
-const notion = new Client({ auth: apiKey })
-
-export default async function getUpdatedOrNewPosts(lastFetch) {
+async function getUpdatedOrNewPosts(notion,database_id,lastFetch) {
   const filters = []
   if (lastFetch !== null) {
     filters.push({
@@ -58,3 +52,5 @@ export default async function getUpdatedOrNewPosts(lastFetch) {
   }
   return allPosts
 }
+
+module.exports = getUpdatedOrNewPosts;

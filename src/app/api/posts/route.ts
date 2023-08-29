@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import { getErrorMessage } from '@/utils/get-error-message';
-import getUpdatedOrNewPosts from './getUpdatedOrNewPosts';
+import getUpdatedOrNewPosts from '@/services/getOrUpdateNewPosts';
 
 export const dynamic = 'force-dynamic';
 
