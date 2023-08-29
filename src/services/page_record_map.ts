@@ -8,7 +8,10 @@ import {
 import { Post } from "@/types/post";
 
 export async function getPageRecordMap(post: Post): Promise<ExtendedRecordMap> {
-    let recordMap = await readRecordMapFromDatabase(post.id);
+    let recordMap = null;
+    if (process.env.NODE_ENV === 'development') {
+        recordMap = await readRecordMapFromDatabase(post.id);
+    }
     if (recordMap === null) {
         const recordMapRaw = await getPageRawRecordMap(post.id);
         recordMap = recordMapRaw.recordMap;

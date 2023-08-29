@@ -2,6 +2,7 @@ import { Post } from '@/types/post';
 import { toUniqueArray } from '@/utils/to-unique-array';
 import fs from 'fs';
 import { join } from 'path';
+import getUpdatedOrNewPosts from '@/app/api/posts/getUpdatedOrNewPosts';
 
 export async function getAllPosts() {
   const posts = await readPostsFromDatabase()
@@ -39,8 +40,13 @@ export async function getRelatedPosts(post: Post): Promise<Post[]> {
 }
 
 export async function readPostsFromDatabase(): Promise<Post[]> {
-  const filepath = join(process.env.PWD || '', 'cache/posts.json')
-  const contents = fs.readFileSync(filepath, 'utf-8');
-  const json = JSON.parse(contents);
-  return json as unknown as Post[];
+  if (process.env.NODE_ENV === 'development') {
+    const filepath = join(process.env.PWD || '', 'cache/posts.json')
+    const contents = fs.readFileSync(filepath, 'utf-8');
+    const json = JSON.parse(contents);
+    return json as unknown as Post[];
+  } else {
+    const posts = await getUpdatedOrNewPosts(null) as Post[]
+    return posts
+  }
 }
