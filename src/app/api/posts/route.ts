@@ -1,19 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { getErrorMessage } from '@/utils/get-error-message';
 import getUpdatedOrNewPosts from './getUpdatedOrNewPosts';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET({ query }: { query?: { after?: string } }) {
+export async function GET(req: NextRequest) {
+  const after = req.nextUrl.searchParams.get('after');
+  console.log(after)
   try {
-    // Parse the 'after' parameter in the query string, e.g., 'dd-MM-yyyy HH:mm:ss'
+    // Parse the 'after' parameter in the query string, e.g., 'ISODate'
     var afterTimestamp = null;
 
-    if (query) {
-      const { after } = query;
-      afterTimestamp = after ? new Date(after) : null;
+    if (after) {
+      afterTimestamp = after ? new Date(after as string) : null;
     }
+
+    console.log(afterTimestamp)
 
     const allPosts = await getUpdatedOrNewPosts(afterTimestamp);
 
