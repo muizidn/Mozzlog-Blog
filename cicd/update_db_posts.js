@@ -10,6 +10,14 @@ const apiKey = process.env.NOTION_API_KEY
 const database_id = process.env.NOTION_DATABASE_ID
 const notion = new Client({ auth: apiKey })
 
+function createCacheDirectory() {
+  const cacheDir = join(process.env.PWD || "", "cache");
+
+  if (!fs.existsSync(cacheDir)) {
+    fs.mkdirSync(cacheDir);
+  }
+}
+
 function lastFetch() {
   const filepath = join(process.env.PWD || "", `cache/notion_last_fetch`)
   if (!fs.existsSync(filepath)) {
@@ -84,4 +92,6 @@ async function run() {
   syncWriteFile(JSON.stringify(postIdToIdx, null, 2), "postIdToIdx.json")
   console.log("Success write posts to cache")
 }
+
+createCacheDirectory()
 run()
