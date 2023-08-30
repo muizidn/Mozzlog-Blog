@@ -3,7 +3,7 @@ import SubscribeNewsletter from '@/components/subscribe-newsletter';
 import { getAllPosts } from '@/services/posts';
 
 export const metadata = {
-  title: 'Welcome | Mozzlog',
+  title: 'Welcome | DataMozz',
 };
 
 export default async function HomePage() {

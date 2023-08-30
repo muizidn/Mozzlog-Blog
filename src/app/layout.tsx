@@ -13,8 +13,8 @@ import '@/styles/paginate.css';
 
 export const metadata = {
   title: {
-    default: 'Mozzlog',
-    template: '%s | Mozzlog',
+    default: 'DataMozz',
+    template: '%s | DataMozz',
   },
 };
 
