@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getErrorMessage } from '@/utils/get-error-message';
 import getUpdatedOrNewPosts from '@/services/getOrUpdateNewPosts';
+import PostgreLocalPostRepository from '@/repositories/post/local';
 
 export const dynamic = 'force-dynamic';
+
+const repo = new PostgreLocalPostRepository()
 
 export async function GET(req: NextRequest) {
   const after = req.nextUrl.searchParams.get('after');
@@ -18,6 +21,7 @@ export async function GET(req: NextRequest) {
     console.log(afterTimestamp)
 
     const allPosts = await getUpdatedOrNewPosts(afterTimestamp);
+    await repo.savePosts(allPosts);
 
     return NextResponse.json({ posts: allPosts });
   } catch (e) {
