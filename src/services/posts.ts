@@ -1,5 +1,4 @@
 import { Post } from '@/types/post';
-import { toUniqueArray } from '@/utils/to-unique-array';
 import { sql } from '@vercel/postgres';
 
 export async function getAllPosts() {
@@ -23,14 +22,18 @@ export async function getAllPosts() {
 }
 
 export async function getAllPostCategories(): Promise<string[]> {
-  const allPosts = await getAllPosts();
+  try {
+      const result = await sql`
+          SELECT DISTINCT UNNEST(categories) as category
+          FROM posts
+          WHERE published = true
+      `;
 
-  const allCategories = toUniqueArray(
-    allPosts
-      .map((post) => post.categories)
-      .flat()
-  ).sort();
-  return allCategories;
+      return result.rows.map((r) => r.category).sort();
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      throw new Error(`Error fetching post categories`);
+  }
 }
 
 export async function getAllPostsSlugs(): Promise<string[]> {
