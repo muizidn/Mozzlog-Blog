@@ -1,4 +1,4 @@
-import { readPostsFromDatabase } from '@/services/posts';
+import { getAllPosts } from '@/services/posts';
 import { Post } from '@/types/post';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
@@ -31,12 +31,12 @@ const resolvers = {
 };
 
 async function findPostById(id: string): Promise<Post | undefined> {
-    const posts = await readPostsFromDatabase();
+    const posts = await getAllPosts();
     return posts.find((post: Post) => post.id === id);
 }
 
 async function fetchAllPosts(): Promise<Post[]> {
-    const posts = await readPostsFromDatabase();
+    const posts = await getAllPosts();
     return posts;
 }
 

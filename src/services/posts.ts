@@ -1,12 +1,25 @@
 import { Post } from '@/types/post';
 import { toUniqueArray } from '@/utils/to-unique-array';
-import fs from 'fs';
-import { join } from 'path';
-import getUpdatedOrNewPosts from './getOrUpdateNewPosts';
+import { sql } from '@vercel/postgres';
 
 export async function getAllPosts() {
-  const posts = await readPostsFromDatabase()
-  return posts.filter((post) => post.published);
+  try {
+    const result = await sql`SELECT * FROM posts WHERE published = true`;
+
+    return result.rows.map((r) => ({
+      id: r.id,
+      slug: r.slug,
+      title: r.title,
+      categories: r.categories,
+      cover: r.cover,
+      date: r.date,
+      published: r.published,
+      lastEditedAt: Number(r.lasteditedat),
+    }));
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw new Error(`Error fetching posts`);
+  }
 }
 
 export async function getAllPostCategories(): Promise<string[]> {
@@ -21,32 +34,62 @@ export async function getAllPostCategories(): Promise<string[]> {
 }
 
 export async function getAllPostsSlugs(): Promise<string[]> {
-  const posts = await readPostsFromDatabase()
-  return posts.filter((post) => post.published).map((post) => post.slug);
+  try {
+    const result = await sql`SELECT slug FROM posts WHERE published = true`;
+
+    return result.rows.map((r) => r.slug);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw new Error(`Error fetching slugs`);
+  }
 }
 
 export async function getPostWithSlug(slug: string): Promise<Post | undefined> {
-  const posts = await readPostsFromDatabase()
-  return posts.filter((post) => post.published).find((post) => post.slug === slug);
+  try {
+    const result = await sql`SELECT * FROM posts WHERE published = true AND slug = ${slug}`;
+
+    if (result.rows.length > 0) {
+      const r = result.rows[0];
+      return {
+        id: r.id,
+        slug: r.slug,
+        title: r.title,
+        categories: r.categories,
+        cover: r.cover,
+        date: r.date,
+        published: r.published,
+        lastEditedAt: Number(r.lasteditedat),
+      };
+    } else {
+      return undefined;
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw new Error(`Error fetching post with slug ${slug}`);
+  }
 }
 
 export async function getRelatedPosts(post: Post): Promise<Post[]> {
-  const posts = await readPostsFromDatabase()
-  const relatedPosts: Post[] = posts.filter(
-    (p) =>
-      p.slug !== post.slug && p.categories.some((v) => post.categories.includes(v))
-  );
-  return relatedPosts;
-}
+  try {
+    const result = await sql`
+            SELECT * FROM posts
+            WHERE published = true
+            AND slug != ${post.slug}
+            AND categories && ${`{${post.categories.join(',')}}`}
+        `;
 
-export async function readPostsFromDatabase(): Promise<Post[]> {
-  if (process.env.NODE_ENV === 'development') {
-    const filepath = join(process.env.PWD || '', 'cache/posts.json')
-    const contents = fs.readFileSync(filepath, 'utf-8');
-    const json = JSON.parse(contents);
-    return json as unknown as Post[];
-  } else {
-    const posts = await getUpdatedOrNewPosts(null) as Post[]
-    return posts
+    return result.rows.map((r) => ({
+      id: r.id,
+      slug: r.slug,
+      title: r.title,
+      categories: r.categories,
+      cover: r.cover,
+      date: r.date,
+      published: r.published,
+      lastEditedAt: Number(r.lasteditedat),
+    }));
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw new Error(`Error fetching related posts for ${post.slug}`);
   }
 }
