@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client';
-import getUpdatedOrNewPosts from '@/services/getUpdatedOrNewPosts.js';
+import getUpdatedOrNewPosts from '@/services/js_getUpdatedOrNewPosts.js';
 
 const apiKey = process.env.NOTION_API_KEY
 const database_id = process.env.NOTION_DATABASE_ID
