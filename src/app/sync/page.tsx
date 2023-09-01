@@ -23,7 +23,6 @@ const SyncPage = () => {
     headers.append('Authorization', `Bearer ${password}`);
 
     const promises: Promise<Response>[] = [
-      fetch(`/api/revalidate?path=/api/posts/cache`, { headers }),
       fetch(`/api/revalidate?path=/`, { headers }),
       fetch(`/api/revalidate?path=/sitemap.xml`, { headers }),
       fetch(`/api/revalidate?path=/blog`, { headers }),
