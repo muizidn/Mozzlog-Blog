@@ -11,7 +11,7 @@ export async function getAllPosts() {
       title: r.title,
       categories: r.categories,
       cover: r.cover,
-      date: r.date,
+      date: (r.date as Date).toDateString(),
       published: r.published,
       lastEditedAt: Number(r.lasteditedat),
     }));
@@ -59,7 +59,7 @@ export async function getPostWithSlug(slug: string): Promise<Post | undefined> {
         title: r.title,
         categories: r.categories,
         cover: r.cover,
-        date: r.date,
+        date: (r.date as Date).toDateString(),
         published: r.published,
         lastEditedAt: Number(r.lasteditedat),
       };
