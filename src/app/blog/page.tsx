@@ -5,7 +5,7 @@ import { getAllPosts, getAllPostCategories } from '@/services/posts';
 
 export const metadata = {
   title: 'Blog',
-  description: 'All posts are created by notion ai.',
+  description: 'Find you interesting posts that can help you finish your tasks faster.',
 };
 
 export default async function BlogPage() {
