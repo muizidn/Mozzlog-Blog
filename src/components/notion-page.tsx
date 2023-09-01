@@ -16,9 +16,13 @@ import { Post } from '@/types/post';
 export default function NotionPage({
   post,
   recordMap,
+  header,
+  footer
 }: {
   post: Post;
   recordMap: ExtendedRecordMap;
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
 }) {
   const { theme } = useTheme();
 
@@ -39,15 +43,15 @@ export default function NotionPage({
       showTableOfContents
       disableHeader
       pageHeader={
-        <div className="flex flex-col">
-          <div className="mb-4">
-            <CategoryList categories={post.categories} />
-          </div>
+        <div className="flex flex-col w-full space-y-2 mb-4">
+          <CategoryList categories={post.categories} />
           <div>Last updated at {lastEditFormatted}</div>
+          {header && header}
         </div>
       }
       pageFooter={
         <div className="flex flex-col items-center space-y-4">
+          {/* callout feedback */}
           <div
             className="rounded-b border-t-4 border-blue-500 bg-blue-100 px-4 py-3 text-blue-900 shadow-md"
             role="alert"
@@ -73,6 +77,7 @@ export default function NotionPage({
               </div>
             </div>
           </div>
+          {/* like button */}
           <div className="flex items-center space-x-2">
             <button className="flex h-8 w-8 items-center justify-center rounded-full bg-green-500 text-white">
               <svg
@@ -107,6 +112,8 @@ export default function NotionPage({
               </svg>
             </button>
           </div>
+          {/* footer */}
+          { footer && footer}
         </div>
       }
       components={{
