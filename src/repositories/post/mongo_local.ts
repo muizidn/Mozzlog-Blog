@@ -120,7 +120,7 @@ export default class MongoLocalPostRepository {
         try {
             const collection = this.db.collection("posts");
             const filter = { published: true };
-            const result = await collection.find(filter, { projection: { slug: 1, id: 0 } }).toArray();
+            const result = await collection.find(filter).project({ slug: 1, _id: 0}).toArray();
 
             return result.map((r) => r.slug);
         } catch (error) {
