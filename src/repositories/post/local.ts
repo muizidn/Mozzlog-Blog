@@ -1,5 +1,5 @@
-import PostgreLocalPostRepository from "./postgre_local";
+import MongoLocalPostRepository from "./mongo_local";
 
-const localDb = new PostgreLocalPostRepository()
+const localDb = new MongoLocalPostRepository()
 
 export default localDb;
