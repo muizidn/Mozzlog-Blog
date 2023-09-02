@@ -2,15 +2,15 @@ import { Post } from "@/types/post";
 import { MongoClient } from "mongodb";
 
 export default class MongoLocalPostRepository {
+    private mongoClient: MongoClient = new MongoClient(process.env.MONGODB_URI as string, {});
+
     constructor() {
     }
 
     async loadPosts(): Promise<Post[]> {
-        const mongoClient = new MongoClient(process.env.MONGODB_URI as string, {});
-
         try {
-            await mongoClient.connect();
-            const db = mongoClient.db(process.env.MONGODB_DBNAME as string);
+            await this.mongoClient.connect();
+            const db = this.mongoClient.db(process.env.MONGODB_DBNAME as string);
             const collection = db.collection("posts");
             const posts = await collection.find({}).toArray();
 
@@ -28,16 +28,15 @@ export default class MongoLocalPostRepository {
             console.error("Error fetching data:", error);
             throw new Error(`Error fetching posts`);
         } finally {
-            await mongoClient.close();
+            await this.mongoClient.close();
         }
     }
 
     async savePosts(posts: Post[]): Promise<void> {
-        const mongoClient = new MongoClient(process.env.MONGODB_URI as string, {});
 
         try {
-            await mongoClient.connect();
-            const db = mongoClient.db(process.env.MONGODB_DBNAME as string);
+            await this.mongoClient.connect();
+            const db = this.mongoClient.db(process.env.MONGODB_DBNAME as string);
             const collection = db.collection("posts");
 
             for (const post of posts) {
@@ -74,7 +73,7 @@ export default class MongoLocalPostRepository {
             console.error("Error saving posts:", error);
             throw new Error(`Error saving posts`);
         } finally {
-            await mongoClient.close();
+            await this.mongoClient.close();
         }
     }
 }
