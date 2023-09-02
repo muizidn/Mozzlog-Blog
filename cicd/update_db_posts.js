@@ -2,7 +2,7 @@ const { Client } = require("@notionhq/client")
 const fs = require("fs")
 const { join } = require("path")
 const { config } = require("dotenv")
-const getUpdatedOrNewPosts = require('../src/services/getUpdatedOrNewPosts')
+const getUpdatedOrNewPosts = require('../src/services/js_getUpdatedOrNewPosts')
 
 config(); // load .env
 

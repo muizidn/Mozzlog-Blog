@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getErrorMessage } from '@/utils/get-error-message';
 import getUpdatedOrNewPosts from '@/services/getOrUpdateNewPosts';
+import repo from '@/repositories/post';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,7 @@ export async function GET(req: NextRequest) {
     console.log(afterTimestamp)
 
     const allPosts = await getUpdatedOrNewPosts(afterTimestamp);
+    await repo.savePosts(allPosts);
 
     return NextResponse.json({ posts: allPosts });
   } catch (e) {

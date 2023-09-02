@@ -19,7 +19,7 @@ const BlogComments: React.FC = ({}) => {
         data-lang="en"
         async
       ></Script>
-      <div className="giscus mx-60 items-center md:w-full lg:w-[60%]"></div>
+      <div className="giscus mx-60 items-center w-full"></div>
     </>
   );
 };

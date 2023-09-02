@@ -16,6 +16,13 @@ async function getUpdatedOrNewPosts(notion,database_id,lastFetch) {
     }
   })
 
+  filters.push({
+    property: "Published",
+    checkbox: {
+      equals: true
+    }
+  })
+
   console.log(filters)
 
   const response = await notion.databases.query({

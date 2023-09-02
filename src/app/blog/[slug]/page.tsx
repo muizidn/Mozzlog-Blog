@@ -64,9 +64,12 @@ export default async function PostPage({
           style={{ objectFit: 'contain' }}
         />
       </div> */}
-        <SharingButtons encodedUrl={encodedUrl} text={text} />
-        <NotionPage post={post} recordMap={recordMap} />
-        <BlogComments />
+        <NotionPage
+          post={post}
+          recordMap={recordMap}
+          header={<SharingButtons encodedUrl={encodedUrl} text={text} />}
+          footer={<BlogComments/>}
+        />
       </article>
       <RelatedPosts posts={relatedPosts} />
     </>
