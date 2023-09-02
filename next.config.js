@@ -1,5 +1,11 @@
+const currentGitBranchName = require("current-git-branch");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    GIT_BRANCH: currentGitBranchName()
+  },
+  
   experimental: {
     appDir: true,
   },
