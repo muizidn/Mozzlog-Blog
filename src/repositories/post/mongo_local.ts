@@ -83,7 +83,7 @@ export default class MongoLocalPostRepository {
             const posts = await collection.find(filter).toArray();
 
             return posts.map((r) => ({
-                id: r._id.toString(),
+                id: r.id.toString(),
                 slug: r.slug,
                 title: r.title,
                 categories: r.categories,
@@ -104,12 +104,12 @@ export default class MongoLocalPostRepository {
             const pipeline = [
                 { $match: { published: true } },
                 { $unwind: "$categories" },
-                { $group: { _id: "$categories" } },
-                { $sort: { _id: 1 } },
+                { $group: { id: "$categories" } },
+                { $sort: { id: 1 } },
             ];
             const result = await collection.aggregate(pipeline).toArray();
 
-            return result.map((r) => r._id);
+            return result.map((r) => r.id);
         } catch (error) {
             console.error('Error fetching data:', error);
             throw new Error(`Error fetching post categories`);
@@ -120,7 +120,7 @@ export default class MongoLocalPostRepository {
         try {
             const collection = this.db.collection("posts");
             const filter = { published: true };
-            const result = await collection.find(filter, { projection: { slug: 1, _id: 0 } }).toArray();
+            const result = await collection.find(filter, { projection: { slug: 1, id: 0 } }).toArray();
 
             return result.map((r) => r.slug);
         } catch (error) {
@@ -137,7 +137,7 @@ export default class MongoLocalPostRepository {
 
             if (post) {
                 return {
-                    id: post._id.toString(),
+                    id: post.id.toString(),
                     slug: post.slug,
                     title: post.title,
                     categories: post.categories,
@@ -166,7 +166,7 @@ export default class MongoLocalPostRepository {
             const posts = await collection.find(filter).toArray();
 
             return posts.map((r) => ({
-                id: r._id.toString(),
+                id: r.id.toString(),
                 slug: r.slug,
                 title: r.title,
                 categories: r.categories,
