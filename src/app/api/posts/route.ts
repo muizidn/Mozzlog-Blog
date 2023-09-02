@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getErrorMessage } from '@/utils/get-error-message';
 import getUpdatedOrNewPosts from '@/services/getOrUpdateNewPosts';
-import PostgreLocalPostRepository from '@/repositories/post/local';
+import repo from '@/repositories/post';
 
 export const dynamic = 'force-dynamic';
-
-const repo = new PostgreLocalPostRepository()
 
 export async function GET(req: NextRequest) {
   const after = req.nextUrl.searchParams.get('after');

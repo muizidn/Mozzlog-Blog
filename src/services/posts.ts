@@ -1,7 +1,5 @@
-import PostgreLocalPostRepository from '@/repositories/post/local';
+import repo from '@/repositories/post';
 import { Post } from '@/types/post';
-
-const repo = new PostgreLocalPostRepository()
 
 export async function getAllPosts() {
   return repo.getAllPosts()
