@@ -1,4 +1,4 @@
-import localDb from "./local";
+import localDb from "./local_repo";
 
 const repo = localDb;
 

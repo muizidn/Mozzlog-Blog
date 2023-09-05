@@ -1,7 +1,8 @@
 import { Post } from "@/types/post";
 import { sql } from "@vercel/postgres";
+import { LocalPostRepository } from "./local";
 
-export default class PostgreLocalPostRepository {
+export default class PostgreLocalPostRepository implements LocalPostRepository {
     constructor() { }
 
     async loadPosts(): Promise<Post[]> {
