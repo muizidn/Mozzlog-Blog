@@ -7,7 +7,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
 
     async loadPosts(): Promise<Post[]> {
         try {
-            const result = await sql`SELECT * FROM posts`;
+            const result = await sql`SELECT * FROM posts ORDER BY date DESC, lasteditedat DESC`;
 
             const posts = result.rows.map(r => ({
                 id: r.id,
@@ -59,7 +59,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
 
     async getAllPosts() {
         try {
-            const result = await sql`SELECT * FROM posts WHERE published = true`;
+            const result = await sql`SELECT * FROM posts WHERE published = true ORDER BY date DESC, lasteditedat DESC`;
 
             return result.rows.map((r) => ({
                 id: r.id,
