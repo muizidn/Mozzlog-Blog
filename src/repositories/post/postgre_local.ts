@@ -1,12 +1,13 @@
 import { Post } from "@/types/post";
 import { sql } from "@vercel/postgres";
+import { LocalPostRepository } from "./local";
 
-export default class PostgreLocalPostRepository {
+export default class PostgreLocalPostRepository implements LocalPostRepository {
     constructor() { }
 
     async loadPosts(): Promise<Post[]> {
         try {
-            const result = await sql`SELECT * FROM posts`;
+            const result = await sql`SELECT * FROM posts ORDER BY date DESC, lasteditedat DESC`;
 
             const posts = result.rows.map(r => ({
                 id: r.id,
@@ -58,7 +59,7 @@ export default class PostgreLocalPostRepository {
 
     async getAllPosts() {
         try {
-            const result = await sql`SELECT * FROM posts WHERE published = true`;
+            const result = await sql`SELECT * FROM posts WHERE published = true ORDER BY date DESC, lasteditedat DESC`;
 
             return result.rows.map((r) => ({
                 id: r.id,

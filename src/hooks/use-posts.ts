@@ -8,6 +8,7 @@ import { queryState } from '@/states/query';
 import { Post } from '@/types/post';
 import { search } from '@/utils/search';
 import { toUniqueArray } from '@/utils/to-unique-array';
+import Fuse from 'fuse.js';
 
 const POST_PER_PAGE = 12;
 
@@ -16,31 +17,22 @@ export default function usePosts(allPosts: Post[]) {
   const query = useRecoilValue(queryState);
   const [categories, setCategories] = useRecoilState(categoriesState);
 
+  const fuse = new Fuse(allPosts, {
+    keys: ['title'],
+    includeScore: true,
+  })
+
   const allPostsFiltered = useMemo(
-    () =>
-      allPosts.filter((post) => {
-        if (!post.published) {
-          return false;
-        }
-
-        if (query && !search(post.title, query)) {
-          return false;
-        }
-
-        if (categories.selected.length) {
-          const isCategoryMatch = categories.selected.every((cat) =>
-            post.categories.includes(cat)
-          );
-          if (!isCategoryMatch) {
-            return false;
-          }
-        }
-
-        return true;
-      }),
+    () => {
+      if (query.length > 0) {
+        let fuzzySearch = fuse.search(query).sort((a, b) => a.score! > b.score! ? 1 : -1)
+        return fuzzySearch.map((f) => f.item)
+      } else {
+        return allPosts
+      }
+    },
     [allPosts, categories.selected, query]
   );
-  allPostsFiltered.sort((postA, postB) => (postA.date > postB.date ? -1 : 1));
 
   const totalPages = Math.ceil(allPostsFiltered.length / POST_PER_PAGE);
   const offset = (page ? +page - 1 : 0) * POST_PER_PAGE;

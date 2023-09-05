@@ -1,7 +1,8 @@
 import { Post } from "@/types/post";
 import { MongoClient } from "mongodb";
+import { LocalPostRepository } from "./local";
 
-export default class MongoLocalPostRepository {
+export default class MongoLocalPostRepository implements LocalPostRepository {
     private mongoClient: MongoClient = new MongoClient(process.env.MONGODB_URI as string, {});
     private db = this.mongoClient.db(process.env.MONGODB_DBNAME as string);
 
