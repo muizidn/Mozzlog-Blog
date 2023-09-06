@@ -65,9 +65,6 @@ dependencies:
   jsdom:
     specifier: ^22.0.0
     version: 22.1.0
-  mixpanel-browser:
-    specifier: ^2.47.0
-    version: 2.47.0
   mongodb:
     specifier: ^6.0.0
     version: 6.0.0
@@ -4051,10 +4048,6 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-    dev: false
-
-  /mixpanel-browser@2.47.0:
-    resolution: {integrity: sha512-Ldrva0fRBEIFWmEibBQO1PulfpJVF3pf28Guk09lDirDaSQqqU/xs9zQLwN2rL5VwVtsP1aD3JaCgaa98EjojQ==}
     dev: false
 
   /mkdirp-classic@0.5.3:
