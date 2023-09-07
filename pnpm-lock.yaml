@@ -65,9 +65,6 @@ dependencies:
   jsdom:
     specifier: ^22.0.0
     version: 22.1.0
-  mixpanel-browser:
-    specifier: ^2.47.0
-    version: 2.47.0
   mongodb:
     specifier: ^6.0.0
     version: 6.0.0
@@ -115,9 +112,6 @@ devDependencies:
   '@types/jsdom':
     specifier: ^21.1.1
     version: 21.1.2
-  '@types/mixpanel-browser':
-    specifier: ^2.47.1
-    version: 2.47.1
   '@types/prismjs':
     specifier: ^1.26.0
     version: 1.26.0
@@ -1263,10 +1257,6 @@ packages:
   /@types/mime@3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
     dev: false
-
-  /@types/mixpanel-browser@2.47.1:
-    resolution: {integrity: sha512-4Oif1hbjmStA6KI1OLer19rbKjlPd67ujp5Wipfa7rIskA/lOFZbp6kYsPjXD0f5AiiCQTbf0R/SnnzgOaKrbA==}
-    dev: true
 
   /@types/node-fetch@2.6.4:
     resolution: {integrity: sha512-1ZX9fcN4Rvkvgv4E6PAY5WXUFWFcRWxZa3EW83UjycOB9ljJCedb2CupIP4RZMEwF/M3eTcCihbBRgwtGbg5Rg==}
@@ -4051,10 +4041,6 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-    dev: false
-
-  /mixpanel-browser@2.47.0:
-    resolution: {integrity: sha512-Ldrva0fRBEIFWmEibBQO1PulfpJVF3pf28Guk09lDirDaSQqqU/xs9zQLwN2rL5VwVtsP1aD3JaCgaa98EjojQ==}
     dev: false
 
   /mkdirp-classic@0.5.3:
