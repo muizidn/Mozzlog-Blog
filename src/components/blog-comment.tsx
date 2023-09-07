@@ -6,9 +6,11 @@ import { CommentProps } from './comment';
 import CommentForm from './comment-form';
 import CommentList from './comment-list';
 
-interface BlogCommentsProps {}
+interface BlogCommentsProps {
+  slug: string;
+}
 
-const BlogComments: React.FC<BlogCommentsProps> = ({}) => {
+const BlogComments: React.FC<BlogCommentsProps> = ({ slug }) => {
   const [comments, setComments] = useState<CommentProps[]>([]);
 
   async function onComment(github_profile: string, comment: string) {
@@ -20,6 +22,7 @@ const BlogComments: React.FC<BlogCommentsProps> = ({}) => {
       body: JSON.stringify({
         github_profile: github_profile,
         comment: comment,
+        slug: slug,
       }),
     });
 

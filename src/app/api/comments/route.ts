@@ -8,7 +8,7 @@ import { v4 as uuidv4, parse as parseUuid } from 'uuid';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
-    const { github_profile, comment } = await req.json();
+    const { github_profile, comment, slug } = await req.json();
     try {
         const username = (github_profile as string).replace('https://github.com/', '');
 

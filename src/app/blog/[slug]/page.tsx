@@ -68,7 +68,7 @@ export default async function PostPage({
           post={post}
           recordMap={recordMap}
           header={<SharingButtons encodedUrl={encodedUrl} text={text} />}
-          footer={<BlogComments/>}
+          footer={<BlogComments slug={post.slug}/>}
         />
       </article>
       <RelatedPosts posts={relatedPosts} />
