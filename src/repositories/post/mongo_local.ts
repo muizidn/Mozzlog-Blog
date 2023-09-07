@@ -13,7 +13,10 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
         try {
             await this.mongoClient.connect();
             const collection = this.db.collection("posts");
-            const posts = await collection.find({}).toArray();
+            const posts = await collection
+                .find({ published: true })
+                .sort({ date: -1, lastEditedAt: -1 })
+                .toArray();
 
             return posts.map((r) => ({
                 id: r.id.toString(),
@@ -81,7 +84,10 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
         try {
             const collection = this.db.collection("posts");
             const filter = { published: true };
-            const posts = await collection.find(filter).toArray();
+            const posts = await collection
+                .find(filter)
+                .sort({ date: -1, lastEditedAt: -1 })
+                .toArray();
 
             return posts.map((r) => ({
                 id: r.id.toString(),
@@ -104,7 +110,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
             const collection = this.db.collection("posts");
             const pipeline = [
                 { $match: { published: true } },
-                { $project : { _id : 0, categories : 1 } },
+                { $project: { _id: 0, categories: 1 } },
                 { $unwind: "$categories" },
                 { $group: { _id: "$categories" } },
                 { $sort: { _id: 1 } },
@@ -122,7 +128,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
         try {
             const collection = this.db.collection("posts");
             const filter = { published: true };
-            const result = await collection.find(filter).project({ slug: 1, _id: 0}).toArray();
+            const result = await collection.find(filter).project({ slug: 1, _id: 0 }).toArray();
 
             return result.map((r) => r.slug);
         } catch (error) {
