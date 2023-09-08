@@ -50,7 +50,7 @@ export default function NotionPage({
         </div>
       }
       pageFooter={
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 w-full">
           {/* callout feedback */}
           <div
             className="rounded-b border-t-4 border-blue-500 bg-blue-100 px-4 py-3 text-blue-900 shadow-md"
