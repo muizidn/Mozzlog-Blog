@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { CommentProps } from './comment';
+import { Comment } from '@/types/comment';
 import CommentForm from './comment-form';
 import CommentList from './comment-list';
 
@@ -11,7 +11,7 @@ interface BlogCommentsProps {
 }
 
 const BlogComments: React.FC<BlogCommentsProps> = ({ slug }) => {
-  const [comments, setComments] = useState<CommentProps[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
   async function onComment(github_profile: string, comment: string) {
     const resp = await fetch('/api/comments', {
@@ -26,10 +26,21 @@ const BlogComments: React.FC<BlogCommentsProps> = ({ slug }) => {
       }),
     });
 
-    const commentObject = (await resp.json()) as unknown as CommentProps;
+    const commentObject = (await resp.json()) as unknown as Comment;
 
     setComments([commentObject, ...comments]);
   }
+
+  async function fetchComments() {
+    const queryParams = new URLSearchParams({ slug: slug });
+    const res = await fetch(`/api/comments?${queryParams}`);
+    const { comments }: { comments: Comment[] } = await res.json();
+    setComments([...comments]);
+  }
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   return (
     <section className="py-8 antialiased dark:bg-gray-900 lg:py-16 w-full">

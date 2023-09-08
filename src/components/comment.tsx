@@ -2,19 +2,11 @@
 import Link from 'next/link';
 import React from 'react';
 
+import { Comment } from '@/types/comment';
 import ValidationWarning from './validation-warning';
 import FollowGithub from './follow-github';
 
-export interface CommentProps {
-  id: string;
-  author: string;
-  avatar: string;
-  date: string;
-  content: string;
-  githubProfile: string;
-}
-
-const Comment: React.FC<CommentProps> = ({
+const Comment: React.FC<Comment> = ({
   id,
   author,
   avatar,

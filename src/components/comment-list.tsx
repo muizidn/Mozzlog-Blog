@@ -1,9 +1,10 @@
 import React from 'react';
 
-import Comment, { CommentProps } from './comment';
+import { Comment } from '@/types/comment';
+import CommentView from './comment';
 
 interface CommentListProps {
-  comments: CommentProps[];
+  comments: Comment[];
 }
 
 const CommentList: React.FC<CommentListProps> = ({ comments }) => {
@@ -16,7 +17,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => {
       )}
       <div>
         {comments.map((comment, index) => (
-          <Comment key={index} {...comment} />
+          <CommentView key={index} {...comment} />
         ))}
       </div>
     </div>

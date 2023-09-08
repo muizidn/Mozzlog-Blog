@@ -8,7 +8,6 @@ const noAuthApi = [
 
 export function middleware(request: NextRequest) {
   for (const api of noAuthApi) {
-    console.log("api", api)
     if (request.url.includes(api)) {
       return NextResponse.next();
     }
