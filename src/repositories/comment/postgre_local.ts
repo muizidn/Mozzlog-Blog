@@ -7,7 +7,16 @@ export default class PostgreLocalCommentRepository implements LocalCommentReposi
 
     async loadComments(slug: string): Promise<Comment[]> {
         const result = await sql`SELECT * FROM comments WHERE slug = ${slug} ORDER BY date DESC;`;
-        return result.rows as Comment[];
+        const comments: Comment[] = result.rows.map(row => ({
+            id: row.id,
+            author: row.author,
+            avatar: row.avatar,
+            date: row.date,
+            content: row.content,
+            githubProfile: row.githubprofile,
+            slug: row.slug,
+        }))
+        return comments;
     }
 
     async saveComment(slug: string, comment: Comment): Promise<void> {
