@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 const noAuthApi = [
-  "newsletter",
-  "comments"
+  "/newsletter",
+  "/comments",
+  "/og"
 ]
 
 export function middleware(request: NextRequest) {
