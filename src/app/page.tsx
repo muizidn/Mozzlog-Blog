@@ -1,4 +1,4 @@
-import BannerProject from './blog/[slug]/banner_project';
+import BannerProject from '@/components/banner_project';
 import PostsGrid from '@/components/posts/posts-grid';
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
 import { getAllPosts } from '@/services/posts';

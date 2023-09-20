@@ -1,4 +1,4 @@
-import BannerProject from './[slug]/banner_project';
+import BannerProject from '@/components/banner_project';
 import CategoryFilter from '@/components/filter/category-filter';
 import SearchBar from '@/components/filter/search-bar';
 import PostsGrid from '@/components/posts/posts-grid';

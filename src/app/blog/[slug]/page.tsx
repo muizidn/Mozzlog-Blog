@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
-import BannerProject from './banner_project';
 import BlogComments from '@/components/blog-comment';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
@@ -15,6 +14,7 @@ import {
   getPostWithSlug,
   getRelatedPosts,
 } from '@/services/posts';
+import BannerProject from '@/components/banner_project';
 
 export default async function PostPage({
   params: { slug },
