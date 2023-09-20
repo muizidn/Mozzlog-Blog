@@ -18,6 +18,7 @@ export default async function BlogPage() {
     <>
       <section className="mb-8 mt-0 space-y-2 md:mt-8">
         <SearchBar />
+        <div className='w-full flex justify-center'>
         <BannerProject url="https://www.tomioai.com/">
           <div className="flex flex-col items-end">
             <div>
@@ -27,6 +28,7 @@ export default async function BlogPage() {
             <div>Go to https://tomioai.com</div>
           </div>
         </BannerProject>
+        </div>
         <CategoryFilter allCategories={allCategories} />
       </section>
       <PostsGrid allPosts={allPosts} />
