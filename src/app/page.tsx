@@ -23,15 +23,7 @@ export default async function HomePage() {
       </h3>
       <h3 className="mt-12 text-center text-3xl">OK?</h3>
       <div className="flex w-full justify-center p-4">
-        <BannerProject url="https://www.tomioai.com/">
-          <div className="flex flex-col items-end">
-            <div>
-              Try Free Preview Access to TomioAI, enjoy prompt library for more
-              productive LLM experience. ↩️
-            </div>
-            <div>Go to https://tomioai.com</div>
-          </div>
-        </BannerProject>
+        <BannerProject />
       </div>
       <div className="space-y-4">
         <h2 className="mt-12 text-center text-3xl font-bold">

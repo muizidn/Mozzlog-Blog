@@ -19,15 +19,7 @@ export default async function BlogPage() {
       <section className="mb-8 mt-0 space-y-2 md:mt-8">
         <SearchBar />
         <div className='w-full flex justify-center'>
-        <BannerProject url="https://www.tomioai.com/">
-          <div className="flex flex-col items-end">
-            <div>
-              Try Free Preview Access to TomioAI, enjoy prompt library for more
-              productive LLM experience. ↩️
-            </div>
-            <div>Go to https://tomioai.com</div>
-          </div>
-        </BannerProject>
+        <BannerProject />
         </div>
         <CategoryFilter allCategories={allCategories} />
       </section>
