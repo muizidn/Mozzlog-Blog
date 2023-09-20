@@ -1,3 +1,4 @@
+import BannerProject from './blog/[slug]/banner_project';
 import PostsGrid from '@/components/posts/posts-grid';
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
 import { getAllPosts } from '@/services/posts';
@@ -21,6 +22,17 @@ export default async function HomePage() {
         We solve it. We share our learning.
       </h3>
       <h3 className="mt-12 text-center text-3xl">OK?</h3>
+      <div className="flex w-full justify-center p-4">
+        <BannerProject url="https://www.tomioai.com/">
+          <div className="flex flex-col items-end">
+            <div>
+              Try Free Preview Access to TomioAI, enjoy prompt library for more
+              productive LLM experience. ↩️
+            </div>
+            <div>Go to https://tomioai.com</div>
+          </div>
+        </BannerProject>
+      </div>
       <div className="space-y-4">
         <h2 className="mt-12 text-center text-3xl font-bold">
           Weekly update is a must. Sometimes more.
@@ -30,9 +42,9 @@ export default async function HomePage() {
         </div>
       </div>
       <h2 className="mt-12 text-3xl font-bold">Post for Today</h2>
-      <PostsGrid paginate={false} allPosts={allPosts.slice(0,12)} />
+      <PostsGrid paginate={false} allPosts={allPosts.slice(0, 12)} />
       <h2 className="mt-12 text-3xl font-bold">Other Posts</h2>
-      <PostsGrid paginate={false} allPosts={allPosts.reverse().slice(0,12)} />
+      <PostsGrid paginate={false} allPosts={allPosts.reverse().slice(0, 12)} />
     </>
   );
 }
