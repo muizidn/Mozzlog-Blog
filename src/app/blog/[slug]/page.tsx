@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
+import BannerProject from './banner_project';
 import BlogComments from '@/components/blog-comment';
 import NotionPage from '@/components/notion-page';
 import RelatedPosts from '@/components/posts/related-posts';
@@ -56,6 +57,17 @@ export default async function PostPage({
         data-revalidated-at={new Date().getTime()}
         className="flex flex-col items-center"
       >
+        <BannerProject url="https://www.tomioai.com/">
+        <div className='flex flex-col items-end'>
+        <div>
+        Try Free Preview Access to TomioAI, enjoy prompt library for more
+        productive LLM experience. ↩️
+        </div>
+        <div>
+        Go to https://tomioai.com
+        </div>
+        </div>
+      </BannerProject>
         {/* <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
           src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
@@ -68,7 +80,7 @@ export default async function PostPage({
           post={post}
           recordMap={recordMap}
           header={<SharingButtons encodedUrl={encodedUrl} text={text} />}
-          footer={<BlogComments slug={post.slug}/>}
+          footer={<BlogComments slug={post.slug} />}
         />
       </article>
       <RelatedPosts posts={relatedPosts} />
