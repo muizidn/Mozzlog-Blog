@@ -58,16 +58,14 @@ export default async function PostPage({
         className="flex flex-col items-center"
       >
         <BannerProject url="https://www.tomioai.com/">
-        <div className='flex flex-col items-end'>
-        <div>
-        Try Free Preview Access to TomioAI, enjoy prompt library for more
-        productive LLM experience. ↩️
-        </div>
-        <div>
-        Go to https://tomioai.com
-        </div>
-        </div>
-      </BannerProject>
+          <div className="flex flex-col items-end">
+            <div>
+              Try Free Preview Access to TomioAI, enjoy prompt library for more
+              productive LLM experience. ↩️
+            </div>
+            <div>Go to https://tomioai.com</div>
+          </div>
+        </BannerProject>
         {/* <div className="relative aspect-[3/2] w-[90vw] max-w-[900px]">
         <Image
           src={post.cover || "/api/og?title=" + encodeURIComponent(post.title)}
