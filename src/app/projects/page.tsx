@@ -16,6 +16,9 @@ export default function ProjectsPage() {
         premium features*
       </h2>
       <h2 className="mt-12 text-center text-3xl">Take a look</h2>
+      <ProjectLink link="/free-tools">
+        Online Free Tools Collections (Released)
+      </ProjectLink>
       <ProjectLink link="/projects/network-spy">
         Network Spy (last commit 1 day ago)
       </ProjectLink>

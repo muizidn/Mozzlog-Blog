@@ -2,6 +2,7 @@ import BannerProject from '@/components/banner_project';
 import PostsGrid from '@/components/posts/posts-grid';
 import SubscribeNewsletter from '@/components/subscribe-newsletter';
 import { getAllPosts } from '@/services/posts';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Welcome | MozzLog',
