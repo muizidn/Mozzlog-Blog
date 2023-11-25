@@ -9,7 +9,6 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
         try {
             const { data, error } = await supabase
                 .from('posts')
-                .select()
                 .select('id, title, date, slug, categories, cover, published, lastEditedAt')
                 .order('date', { ascending: false })
                 .order('lastEditedAt', { ascending: false });
@@ -99,22 +98,21 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
     }
 
     async getAllPostCategories(): Promise<string[]> {
-        return []
-        // try {
-        //     const { data, error } = await supabase
-        //         .from('posts')
-        //         .distinct('categories', { published: true });
+        try {
+            const { data, error } = await supabase
+                .from('categories_view')
+                .select('*')
 
-        //     if (error) {
-        //         console.error('Error fetching data:', error);
-        //         throw new Error(`Error fetching post categories`);
-        //     }
+            if (error) {
+                console.error('Error fetching data:', error);
+                throw new Error(`Error fetching post categories`);
+            }
 
-        //     return data.map((r: any) => r.categories).sort();
-        // } catch (error) {
-        //     console.error('Error fetching data:', error);
-        //     throw new Error(`Error fetching post categories`);
-        // }
+            return data.map((r: any) => r.category).sort();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw new Error(`Error fetching post categories`);
+        }
     }
 
     async getAllPostsSlugs(): Promise<string[]> {
@@ -174,11 +172,10 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
         try {
             const { data, error } = await supabase
                 .from('posts')
-                .select()
+                .select('id, title, date, slug, categories, cover, published, lastEditedAt')
                 .eq('published', true)
                 .not('slug', 'eq', post.slug)
                 .overlaps('categories', post.categories)
-                .select('id, title, date, slug, categories, cover, published, lastEditedAt')
                 .limit(100)
 
             if (error) {
