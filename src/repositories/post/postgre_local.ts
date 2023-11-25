@@ -1,5 +1,4 @@
 import { Post } from "@/types/post";
-import { createClient } from '@supabase/supabase-js';
 import { LocalPostRepository } from "./local";
 import { supabase } from "@/services/supabase";
 
@@ -13,8 +12,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
                 .select()
                 .select('id, title, date, slug, categories, cover, published, lastEditedAt')
                 .order('date', { ascending: false })
-                .order('lastEditedAt', { ascending: false })
-                .limit(100);
+                .order('lastEditedAt', { ascending: false });
 
             if (error) {
                 console.error('Error fetching data:', error);
@@ -29,7 +27,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
                 cover: r.cover,
                 date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lastEditedAt),
+                lastEditedAt: new Date(r.lastEditedAt),
             }));
 
             return posts;
@@ -161,7 +159,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
                     cover: r.cover,
                     date: new Date(r.date).toDateString(),
                     published: r.published,
-                    lastEditedAt: Number(r.lastEditedAt),
+                    lastEditedAt: new Date(r.lastEditedAt),
                 };
             } else {
                 return undefined;
@@ -196,7 +194,7 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
                 cover: r.cover,
                 date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lastEditedAt),
+                lastEditedAt: new Date(r.lastEditedAt),
             }));
         } catch (error) {
             console.error('Error fetching data:', error);

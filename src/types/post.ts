@@ -6,5 +6,5 @@ export type Post = {
   cover: string | null;
   date: string;
   published: boolean;
-  lastEditedAt: number;
+  lastEditedAt: Date;
 };

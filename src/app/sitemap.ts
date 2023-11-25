@@ -9,7 +9,7 @@ export default async function sitemap() {
   for (const post of allPosts) {
     sitemap.push({
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${post.slug}`,
-      lastModified: new Date(post.lastEditedAt),
+      lastModified: post.lastEditedAt,
     });
   }
 

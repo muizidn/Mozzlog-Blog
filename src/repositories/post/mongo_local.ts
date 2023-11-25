@@ -26,7 +26,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
                 cover: r.cover,
                 date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: r.lastEditedAt,
+                lastEditedAt: new Date(r.lastEditedAt),
             }));
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -97,7 +97,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
                 cover: r.cover,
                 date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lastEditedAt),
+                lastEditedAt: new Date(r.lastEditedAt),
             }));
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -152,7 +152,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
                     cover: post.cover,
                     date: new Date(post.date).toDateString(),
                     published: post.published,
-                    lastEditedAt: Number(post.lastEditedAt),
+                    lastEditedAt: new Date(post.lastEditedAt),
                 };
             } else {
                 return undefined;
@@ -181,7 +181,7 @@ export default class MongoLocalPostRepository implements LocalPostRepository {
                 cover: r.cover,
                 date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lastEditedAt),
+                lastEditedAt: new Date(r.lastEditedAt),
             }));
         } catch (error) {
             console.error('Error fetching data:', error);

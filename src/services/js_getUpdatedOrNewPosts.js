@@ -43,7 +43,7 @@ async function getUpdatedOrNewPosts(notion,database_id,lastFetch) {
     const cover = null
     const date = post.properties.Date.date.start
     const published = post.properties.Published.checkbox
-    const lastEditedAt = new Date(post.last_edited_time).valueOf()
+    const lastEditedAt = new Date(post.last_edited_time)
     allPosts.push({
       id,
       title,
