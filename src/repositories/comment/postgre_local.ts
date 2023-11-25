@@ -1,28 +1,59 @@
 import { Comment } from "@/types/comment";
-import { sql } from "@vercel/postgres";
+import { supabase } from "@/services/supabase";
 import { LocalCommentRepository } from "./local";
 
 export default class PostgreLocalCommentRepository implements LocalCommentRepository {
     constructor() { }
 
     async loadComments(slug: string): Promise<Comment[]> {
-        const result = await sql`SELECT * FROM comments WHERE slug = ${slug} ORDER BY date DESC;`;
-        const comments: Comment[] = result.rows.map(row => ({
-            id: row.id,
-            author: row.author,
-            avatar: row.avatar,
-            date: row.date,
-            content: row.content,
-            githubProfile: row.githubprofile,
-            slug: row.slug,
-        }))
-        return comments;
+        try {
+            const { data, error } = await supabase
+                .from('comments')
+                .select('*')
+                .eq('slug', slug)
+                .order('date', { ascending: false });
+
+            if (error) {
+                console.error('Error loading comments:', error);
+                return [];
+            }
+
+            const comments: Comment[] = data?.map((row: any) => ({
+                id: row.id,
+                author: row.author,
+                avatar: row.avatar,
+                date: row.date,
+                content: row.content,
+                githubProfile: row.githubprofile,
+                slug: row.slug,
+            })) || [];
+
+            return comments;
+        } catch (error) {
+            console.error('Error loading comments:', error);
+            return [];
+        }
     }
 
     async saveComment(slug: string, comment: Comment): Promise<void> {
-        await sql`
-      INSERT INTO comments (id, author, avatar, date, content, githubProfile, slug)
-      VALUES (${comment.id}, ${comment.author}, ${comment.avatar}, ${comment.date}, ${comment.content}, ${comment.githubProfile}, ${slug})
-    `;
+        try {
+            await supabase
+                .from('comments')
+                .upsert([
+                    {
+                        id: comment.id,
+                        author: comment.author,
+                        avatar: comment.avatar,
+                        date: comment.date,
+                        content: comment.content,
+                        githubprofile: comment.githubProfile,
+                        slug: slug,
+                    },
+                ]);
+
+        } catch (error) {
+            console.error('Error saving comment:', error);
+            throw new Error('Error saving comment');
+        }
     }
 }

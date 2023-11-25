@@ -1,15 +1,7 @@
 import { Post } from "@/types/post";
 import { createClient } from '@supabase/supabase-js';
 import { LocalPostRepository } from "./local";
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseKey, {
-    auth: {
-        persistSession: false
-    }
-});
+import { supabase } from "@/services/supabase";
 
 export default class PostgreLocalPostRepository implements LocalPostRepository {
     constructor() { }
