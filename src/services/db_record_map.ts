@@ -19,12 +19,16 @@ export async function readRecordMapFromDatabase(id: String): Promise<RecordMap |
 
 // ✅ write to file SYNCHRONOUSLY
 function syncWriteFile(id: string, data: any) {
-    /**
-     * flags:
-     *  - w = Open file for reading and writing. File is created if not exists
-     *  - a+ = Open file for reading and appending. The file is created if not exists
-     */
-    const filepath = join(process.env.PWD || '', `cache/notion_records/${id}.json`)
+    const directoryPath = join(process.env.PWD || '', 'cache/notion_records');
+
+    // Check if the directory exists, create it if not
+    if (!fs.existsSync(directoryPath)) {
+        fs.mkdirSync(directoryPath, { recursive: true });
+    }
+
+    const filepath = join(directoryPath, `${id}.json`);
+
+    // Use 'a+' flag to open the file for reading and appending
     fs.writeFileSync(filepath, data, {
         flag: 'w',
     });
