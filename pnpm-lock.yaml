@@ -18,7 +18,7 @@ dependencies:
     specifier: ^4.14.0
     version: 4.16.2(prisma@4.16.2)
   '@supabase/supabase-js':
-    specifier: ^2.22.0
+    specifier: ^2.33.1
     version: 2.33.1(encoding@0.1.13)
   '@tailwindcss/line-clamp':
     specifier: ^0.4.2

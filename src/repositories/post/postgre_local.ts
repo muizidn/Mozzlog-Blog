@@ -1,29 +1,49 @@
 import { Post } from "@/types/post";
-import { sql } from "@vercel/postgres";
+import { createClient } from '@supabase/supabase-js';
 import { LocalPostRepository } from "./local";
+
+const supabaseUrl = process.env.SUPABASE_URL!;
+const supabaseKey = process.env.SUPABASE_KEY!;
+
+const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+        persistSession: false
+    }
+});
 
 export default class PostgreLocalPostRepository implements LocalPostRepository {
     constructor() { }
 
     async loadPosts(): Promise<Post[]> {
         try {
-            const result = await sql`SELECT * FROM posts ORDER BY date DESC, lasteditedat DESC`;
+            const { data, error } = await supabase
+                .from('posts')
+                .select()
+                .select('id, title, date, slug, categories, cover, published, lastEditedAt')
+                .order('date', { ascending: false })
+                .order('lastEditedAt', { ascending: false })
+                .limit(100);
 
-            const posts = result.rows.map(r => ({
+            if (error) {
+                console.error('Error fetching data:', error);
+                throw new Error(`Error fetching posts`);
+            }
+
+            const posts = data.map((r: any) => ({
                 id: r.id,
                 slug: r.slug,
                 title: r.title,
                 categories: r.categories,
                 cover: r.cover,
-                date: (r.date as Date).toDateString(),
+                date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lasteditedat)
+                lastEditedAt: Number(r.lastEditedAt),
             }));
+
             return posts;
         } catch (error) {
             console.error('Error fetching data:', error);
             throw new Error(`Error fetching posts`);
-        } finally {
         }
     }
 
@@ -35,19 +55,48 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
         } catch (error) {
             console.error('Error saving posts:', error);
             throw new Error(`Error saving posts`);
-        } finally {
         }
     }
 
     private async updateOrCreate(post: Post) {
         try {
-            const { rows } = await sql`SELECT COUNT(*) FROM posts WHERE id = ${post.id}`;
-            const postExists = parseInt(rows[0].count) > 0;
+            const { data: existingPosts, error: existingError } = await supabase
+                .from('posts')
+                .select('id')
+                .eq('id', post.id);
+
+            if (existingError) {
+                console.error('Error checking existing posts:', existingError);
+                throw new Error('Error checking existing posts');
+            }
+
+            const postExists = existingPosts && existingPosts.length > 0;
 
             if (postExists) {
-                await sql`UPDATE posts SET slug = ${post.slug}, title = ${post.title}, cover = ${post.cover}, date = ${post.date}, published = ${post.published}, lastEditedAt = ${post.lastEditedAt} WHERE id = ${post.id}`;
+                await supabase
+                    .from('posts')
+                    .update({
+                        slug: post.slug,
+                        title: post.title,
+                        cover: post.cover,
+                        date: post.date,
+                        published: post.published,
+                        lastEditedAt: new Date(post.lastEditedAt),
+                    })
+                    .eq('id', post.id);
             } else {
-                await sql`INSERT INTO posts (id, slug, title, cover, categories, date, published, lastEditedAt) VALUES (${post.id}, ${post.slug}, ${post.title}, ${post.cover}, ${`{${post.categories.join(',')}}`}, ${post.date}, ${post.published}, ${post.lastEditedAt})`;
+                await supabase
+                    .from('posts')
+                    .insert([{
+                        id: post.id,
+                        slug: post.slug,
+                        title: post.title,
+                        cover: post.cover,
+                        categories: post.categories,
+                        date: post.date,
+                        published: post.published,
+                        lastEditedAt: new Date(post.lastEditedAt),
+                    }]);
             }
         } catch (error) {
             console.error('Error updating or inserting post posts:', error);
@@ -55,48 +104,42 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
         }
     }
 
-    // FIX ME
-
-    async getAllPosts() {
-        try {
-            const result = await sql`SELECT * FROM posts WHERE published = true ORDER BY date DESC, lasteditedat DESC`;
-
-            return result.rows.map((r) => ({
-                id: r.id,
-                slug: r.slug,
-                title: r.title,
-                categories: r.categories,
-                cover: r.cover,
-                date: (r.date as Date).toDateString(),
-                published: r.published,
-                lastEditedAt: Number(r.lasteditedat),
-            }));
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            throw new Error(`Error fetching posts`);
-        }
+    async getAllPosts(): Promise<Post[]> {
+        return await this.loadPosts();
     }
 
     async getAllPostCategories(): Promise<string[]> {
-        try {
-            const result = await sql`
-                SELECT DISTINCT UNNEST(categories) as category
-                FROM posts
-                WHERE published = true
-            `;
+        return []
+        // try {
+        //     const { data, error } = await supabase
+        //         .from('posts')
+        //         .distinct('categories', { published: true });
 
-            return result.rows.map((r) => r.category).sort();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            throw new Error(`Error fetching post categories`);
-        }
+        //     if (error) {
+        //         console.error('Error fetching data:', error);
+        //         throw new Error(`Error fetching post categories`);
+        //     }
+
+        //     return data.map((r: any) => r.categories).sort();
+        // } catch (error) {
+        //     console.error('Error fetching data:', error);
+        //     throw new Error(`Error fetching post categories`);
+        // }
     }
 
     async getAllPostsSlugs(): Promise<string[]> {
         try {
-            const result = await sql`SELECT slug FROM posts WHERE published = true`;
+            const { data, error } = await supabase
+                .from('posts')
+                .select('slug')
+                .eq('published', true);
 
-            return result.rows.map((r) => r.slug);
+            if (error) {
+                console.error('Error fetching data:', error);
+                throw new Error(`Error fetching slugs`);
+            }
+
+            return data.map((r: any) => r.slug);
         } catch (error) {
             console.error('Error fetching data:', error);
             throw new Error(`Error fetching slugs`);
@@ -105,19 +148,28 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
 
     async getPostWithSlug(slug: string): Promise<Post | undefined> {
         try {
-            const result = await sql`SELECT * FROM posts WHERE published = true AND slug = ${slug}`;
+            const { data, error } = await supabase
+                .from('posts')
+                .select('*')
+                .eq('published', true)
+                .eq('slug', slug);
 
-            if (result.rows.length > 0) {
-                const r = result.rows[0];
+            if (error) {
+                console.error('Error fetching data:', error);
+                throw new Error(`Error fetching post with slug ${slug}`);
+            }
+
+            if (data.length > 0) {
+                const r = data[0];
                 return {
                     id: r.id,
                     slug: r.slug,
                     title: r.title,
                     categories: r.categories,
                     cover: r.cover,
-                    date: (r.date as Date).toDateString(),
+                    date: new Date(r.date).toDateString(),
                     published: r.published,
-                    lastEditedAt: Number(r.lasteditedat),
+                    lastEditedAt: Number(r.lastEditedAt),
                 };
             } else {
                 return undefined;
@@ -130,22 +182,29 @@ export default class PostgreLocalPostRepository implements LocalPostRepository {
 
     async getRelatedPosts(post: Post): Promise<Post[]> {
         try {
-            const result = await sql`
-                  SELECT * FROM posts
-                  WHERE published = true
-                  AND slug != ${post.slug}
-                  AND categories && ${`{${post.categories.join(',')}}`}
-              `;
+            const { data, error } = await supabase
+                .from('posts')
+                .select()
+                .eq('published', true)
+                .not('slug', 'eq', post.slug)
+                .overlaps('categories', post.categories)
+                .select('id, title, date, slug, categories, cover, published, lastEditedAt')
+                .limit(100)
 
-            return result.rows.map((r) => ({
+            if (error) {
+                console.error('Error fetching data:', error);
+                throw new Error(`Error fetching related posts for ${post.slug}`);
+            }
+
+            return data.map((r: any) => ({
                 id: r.id,
                 slug: r.slug,
                 title: r.title,
                 categories: r.categories,
                 cover: r.cover,
-                date: (r.date as Date).toDateString(),
+                date: new Date(r.date).toDateString(),
                 published: r.published,
-                lastEditedAt: Number(r.lasteditedat),
+                lastEditedAt: Number(r.lastEditedAt),
             }));
         } catch (error) {
             console.error('Error fetching data:', error);
