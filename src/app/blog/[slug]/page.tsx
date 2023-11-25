@@ -42,7 +42,7 @@ export default async function PostPage({
   }
 
   const relatedPosts = await getRelatedPosts(post);
-  let recordMap = await getPageRecordMap(post);
+  let recordMap = await getPageRecordMap(post.id);
 
   const encodedUrl = encodeURIComponent(
     process.env.NEXT_PUBLIC_SITE_URL + '/blog/' + post.slug

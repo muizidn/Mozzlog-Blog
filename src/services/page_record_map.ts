@@ -5,20 +5,13 @@ import {
     readRecordMapFromDatabase,
 } from '@/services/db_record_map';
 
-import { Post } from "@/types/post";
-
-export async function getPageRecordMap(post: Post): Promise<ExtendedRecordMap> {
-    let recordMap = null;
-    if (process.env.NODE_ENV === 'development') {
-        recordMap = await readRecordMapFromDatabase(post.id);
-    }
+export async function getPageRecordMap(postId: string): Promise<ExtendedRecordMap> {
+    let recordMap = await readRecordMapFromDatabase(postId);
     if (recordMap === null) {
-        const recordMapRaw = await getPageRawRecordMap(post.id);
+        const recordMapRaw = await getPageRawRecordMap(postId);
         recordMap = recordMapRaw.recordMap;
     }
     const extendedRecordMap = recordMap as unknown as ExtendedRecordMap;
-    if (process.env.NODE_ENV === 'development') {
-        saveRecordMapToDatabase(post.id, recordMap);
-    }
+    saveRecordMapToDatabase(postId, recordMap);
     return extendedRecordMap
 }
