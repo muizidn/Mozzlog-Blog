@@ -14,7 +14,7 @@ export default function WaitlistForm(props: { project: string }) {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY!}`
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_KEY!}`
       },
       body: JSON.stringify({ email, waitlist_project: props.project }),
     });
