@@ -5,9 +5,9 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const databaseId = process.env.NOTION_WAITLIST_DATABASE_ID!;
 
 export async function POST(req: Request) {
-  const { email, waitlist_project_code } = await req.json();
+  const { email, waitlist_project } = await req.json();
 
-  if (!email || !waitlist_project_code) {
+  if (!email || !waitlist_project) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
@@ -22,10 +22,10 @@ export async function POST(req: Request) {
             },
           ],
         },
-        'Waitlist Project Code': {
+        'Waitlist Project': {
           rich_text: [
             {
-              text: { content: waitlist_project_code },
+              text: { content: waitlist_project },
             },
           ],
         },

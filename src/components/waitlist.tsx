@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function WaitlistForm(props: { code?: string }) {
+export default function WaitlistForm(props: { project: string }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ export default function WaitlistForm(props: { code?: string }) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY!}`
       },
-      body: JSON.stringify({ email, waitlist_project_code: props.code }),
+      body: JSON.stringify({ email, waitlist_project: props.project }),
     });
 
     setLoading(false);

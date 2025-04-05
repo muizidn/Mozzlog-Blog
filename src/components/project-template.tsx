@@ -7,7 +7,7 @@ interface Props {
   name: string;
   tagline: string;
   description: string;
-  waitlistCode?: string | undefined;
+  waitlistProject?: string | undefined;
   websiteUrl?: string | undefined;
   image?: string | undefined;
 }
@@ -16,7 +16,7 @@ const ProjectTemplatePage: React.FC<Props> = ({
   name,
   tagline,
   description,
-  waitlistCode,
+  waitlistProject,
   websiteUrl,
   image,
 }) => {
@@ -33,8 +33,8 @@ const ProjectTemplatePage: React.FC<Props> = ({
   }
 
   let waitlist = <div></div>;
-  if (isValid(waitlistCode)) {
-    waitlist = <Waitlist code={waitlistCode!} />;
+  if (isValid(waitlistProject)) {
+    waitlist = <Waitlist project={waitlistProject!} />;
   }
 
   let goToWebsite = <div></div>;

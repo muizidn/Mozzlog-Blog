@@ -6,7 +6,7 @@ export default function Page() {
       name="Wolf Util"
       tagline="Toolbelt for Software Engineer"
       description="No more searching websites for small utilities. Always have something reliable to use offline. Keep your data and never leaves you."
-      waitlistCode='YQ86g6'
+      waitlistProject='Wolf Util'
     />
   );
 }

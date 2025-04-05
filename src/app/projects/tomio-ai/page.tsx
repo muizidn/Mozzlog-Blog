@@ -18,7 +18,7 @@ export default function TomioAiPage() {
       name="Tomio AI"
       tagline="Your Own Assistant At Hand"
       description="Whenever you need this AI bot assistant will help you doing your daily tasks. You don't need to worry about limit. You are the limit"
-      waitlistCode='ub9Y8s'
+      waitlistProject='Tomio AI'
       image="https://bmwvfjerbeswbgqrwmfp.supabase.co/storage/v1/object/public/mozzlog/tomio-banner.png"
     />
   );
