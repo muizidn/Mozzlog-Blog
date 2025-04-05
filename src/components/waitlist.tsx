@@ -4,10 +4,10 @@ import { useState } from 'react';
 
 export default function WaitlistForm(props: { code?: string }) {
   const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const res = await fetch('/api/waitlist', {
       method: 'POST',
       headers: { 
@@ -17,12 +17,15 @@ export default function WaitlistForm(props: { code?: string }) {
       body: JSON.stringify({ email, waitlist_project_code: props.code }),
     });
 
-    if (res.ok) setSuccess(true);
+    if (res.ok) {
+      alert('🎉 Thank you! You’ve been added to the waitlist.');
+      setEmail('');
+    } else {
+      alert('❌ Something went wrong. Please try again.');
+    }
   };
 
-  return success ? (
-    <p className="text-green-500">You can&apos;t submit this twice.</p>
-  ) : (
+  return (
     <form onSubmit={handleSubmit} className="space-x-3">
       <input
         type="email"
