@@ -16,7 +16,7 @@ export function middleware(request: NextRequest) {
 
   const authHeader = request.headers.get('Authorization');
 
-  if (!authHeader || authHeader !== `Bearer ${process.env.API_SECRET_KEY}`) {
+  if (!authHeader || authHeader !== `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY}`) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 

@@ -1,30 +1,43 @@
-import Script from 'next/script';
+'use client'
 
-export default function Waitlist({code}: {code: string}) {
-  return (
-    <>
-      <Script src="https://getlaunchlist.com/js/widget-diy.js" />
+import { useState } from 'react';
 
-      <form
-        className="launchlist-form"
-        action={"https://getlaunchlist.com/s/" + code}
-        method="POST"
+export default function WaitlistForm(props: { code?: string }) {
+  const [email, setEmail] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_KEY!}`
+      },
+      body: JSON.stringify({ email, waitlist_project_code: props.code }),
+    });
+
+    if (res.ok) setSuccess(true);
+  };
+
+  return success ? (
+    <p className="text-green-500">You can&apos;t submit this twice.</p>
+  ) : (
+    <form onSubmit={handleSubmit} className="space-x-3">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Your email address"
+        className="w-auto rounded-full border-gray-500 px-5 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400"
+      />
+      <button
+        type="submit"
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600"
       >
-        <div className='space-x-3'>
-        <input
-          type="email"
-          name="email"
-          className="w-auto rounded-full border-gray-500 px-5 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 dark:border-gray-700 dark:bg-slate-900 dark:text-gray-400"
-          placeholder="Your email address"
-        />
-        <button
-          type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-        >
-          Join Waitlist
-        </button>
-        </div>
-      </form>
-    </>
+        Join Waitlist
+      </button>
+    </form>
   );
 }
